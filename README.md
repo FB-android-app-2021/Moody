@@ -7,7 +7,6 @@ Original App Design Project - README Template
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
-2. [Schema](#Schema)
 
 ## Overview
 ### Description
@@ -44,7 +43,6 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
    * User can login to account
 * Register
    * User can register a new account
-   * ...
  * Profile
    * User can view log of emotions in display form 
 
@@ -80,16 +78,3 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
-
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
-
-## Schema 
-[This section will be completed in Unit 9]
-### Models
-[Add table of models]
-### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
