@@ -76,5 +76,4 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
    * Profile
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="Wireframe_moody1.png" width=600>
