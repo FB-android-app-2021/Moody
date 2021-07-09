@@ -144,13 +144,6 @@ GET | /tv/{tv_id}/similar | Get the list of similar TV shows |
 GET | /search/movie | Search for movies |
 GET | /search/tv | Search for a TV show |
 
-Goodreads API
-  * Base URL: https://listen-api.listennotes.com/api/v2
-  
-HTTP Verb | Endpoint| Description | 
---- | --- | --- |
-GET | /genres | Get list of podcast genres |
-
 ListenNotes API
   * Base URL: https://listen-api.listennotes.com/api/v2
   
