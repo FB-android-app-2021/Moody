@@ -127,12 +127,14 @@ updatedAt | DateTime | date when post is last updated (default field) |
 
 Audio Database API
   * Base URL: https://theaudiodb.com/api/v1
+  
 HTTP Verb | Endpoint| Description | 
 --- | --- | --- |
 GET | search.php?s={Artist name} | returns biography from artist from artist name|
 
 The Movie Database API
   * Base URL: https://www.api.themoviedb.org/3
+  
 HTTP Verb | Endpoint| Description | 
 --- | --- | --- |
 GET | /genre/movie/list | Get list of official genres for movies |
@@ -144,12 +146,14 @@ GET | /search/tv | Search for a TV show |
 
 Goodreads API
   * Base URL: https://listen-api.listennotes.com/api/v2
+  
 HTTP Verb | Endpoint| Description | 
 --- | --- | --- |
 GET | /genres | Get list of podcast genres |
 
 ListenNotes API
   * Base URL: https://listen-api.listennotes.com/api/v2
+  
 HTTP Verb | Endpoint| Description | 
 --- | --- | --- |
 GET | /genres | Get list of podcast genres |
