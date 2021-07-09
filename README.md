@@ -27,15 +27,19 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
 
 **Required Must-have Stories**
 
-* User can register a new account
-* User can login 
-* User can logout of account
-* 
+* User can register a new account, login, and logout of account
+* User can select an option corresponding to the emotion they are experiencing
+* User can scroll through selections of different suggested media
+* User can view personal entries posted privately.
+* User can view media titles they have selected in the past
+
 
 **Optional Nice-to-have Stories**
 
-* [fill in your required user stories here]
-* ...
+* User can search media titles and view emotion corresponding to it
+* User can share title with friends
+* User can see where to find suggested media item
+* User can favorite and view favorited media titles
 
 ### 2. Screen Archetypes
 
@@ -44,17 +48,22 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
 * Register
    * User can register a new account
  * Profile
-   * User can view log of emotions in display form 
+   * User can view favorited titles
+   * User can view account information
 
  * Stream
    * User can scroll through selections of different suggested media
    * User can select an option corresponding to the emotion they are experiencing
    * User can view personal entries posted privately.
    * User can view medias they have selected in the past
+   * User can view log of emotions in display form 
+   * User can search media titles and view emotion corresponding to it
 
  * Detail
      * User can view details of past entries
      * User can view details of selected media items
+     * User can see where to find suggested media item
+     * User can favorite item
 
  * Creation
    * User can create an entry/response of how they are feeling
@@ -65,8 +74,8 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
 **Tab Navigation** (Tab to Screen)
 
 * Profile
-* Stream 1: Media History
-* Stream 2: Entry History
+* Stream 1: Media library
+* Stream 2: Entry and media log
 
 **Flow Navigation** (Screen to Screen)
 
@@ -74,6 +83,8 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
    * Creation
 * Creation
    * Profile
+* Stream
+  * Detail
 
 ## Wireframes
 <img src="Wireframe_moody1.png" width=600>
