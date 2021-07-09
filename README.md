@@ -88,3 +88,71 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
 
 ## Wireframes
 <img src="Wireframe_moody1.png" width=600>
+
+## Schema
+
+**Models**
+
+Model: User
+Property| Type | Description | 
+--- | --- | --- |
+objectId | String | unique id for user (default field) |
+email | String | email address associated with user (default field)|
+password | String | password associated with user (default field)|
+createdAt | DateTime | date when user's account is created (default field) |
+updatedAt | DateTime | date when user's account is last updated (default field) |
+daysLogged | Number | number of days user has logged in app
+
+
+Model: Entry
+Property| Type | Description | 
+--- | --- | --- |
+objectId | String | unique id for user entry (default field) |
+author| Pointer to User | entry author |
+caption | String | entry caption by author |
+createdAt | DateTime | date when post is created (default field) |
+updatedAt | DateTime | date when post is last updated (default field) |
+
+**Networking**
+
+* Create
+  * (Create/POST) Create a new Entry Object  
+* Profile
+  * (Read/GET) Query logged in user object
+  * (Update/PUT) Update user profile image
+* User Log screen
+  * (Read/GET) Query all posts where user is author
+
+**[OPTIONAL] Network REquests for Existing APIs**
+
+Audio Database API
+  * Base URL: https://theaudiodb.com/api/v1
+HTTP Verb | Endpoint| Description | 
+--- | --- | --- |
+GET | search.php?s={Artist name} | returns biography from artist from artist name|
+
+The Movie Database API
+  * Base URL: https://www.api.themoviedb.org/3
+HTTP Verb | Endpoint| Description | 
+--- | --- | --- |
+GET | /genre/movie/list | Get list of official genres for movies |
+GET | /genre/tv/list | Get the list of official genres for TV shows |
+GET | /movie/{movie_id}/similar | Get the list of similar movies |
+GET | /tv/{tv_id}/similar | Get the list of similar TV shows |
+GET | /search/movie | Search for movies |
+GET | /search/tv | Search for a TV show |
+
+Goodreads API
+  * Base URL: https://listen-api.listennotes.com/api/v2
+HTTP Verb | Endpoint| Description | 
+--- | --- | --- |
+GET | /genres | Get list of podcast genres |
+
+ListenNotes API
+  * Base URL: https://listen-api.listennotes.com/api/v2
+HTTP Verb | Endpoint| Description | 
+--- | --- | --- |
+GET | /genres | Get list of podcast genres |
+GET | /best_podcasts | Get list of best podcasts by genre
+
+
