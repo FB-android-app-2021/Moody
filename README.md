@@ -37,7 +37,7 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
 **Optional Nice-to-have Stories**
 
 * User can search media titles and view emotion corresponding to it
-* User can share title with friends
+* User can share entries anonymously
 * User can see where to find suggested media item
 * User can favorite and view favorited media titles
 
