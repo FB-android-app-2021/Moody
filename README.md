@@ -123,14 +123,14 @@ updatedAt | DateTime | date when post is last updated (default field) |
 * User Log screen
   * (Read/GET) Query all posts where user is author
 
-**[OPTIONAL] Network REquests for Existing APIs**
+**Network Requests for Existing APIs**
 
-Audio Database API
-  * Base URL: https://theaudiodb.com/api/v1
+Spotify API
+  * Base URL: https://api.spotify.com/v1
   
 HTTP Verb | Endpoint| Description | 
 --- | --- | --- |
-GET | search.php?s={Artist name} | returns biography from artist from artist name|
+GET | /artists | returns json array of artist data|
 
 The Movie Database API
   * Base URL: https://www.api.themoviedb.org/3
