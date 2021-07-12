@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="287dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:backgroundTintMode="src_in"
+            android:text="Log In"
+            android:textAllCaps="false"
+            app:showAsAction="ifRoom" />
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="287dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:backgroundTintMode="src_in"
+        android:text="Create New Account"
+        android:textAllCaps="false"
+        app:showAsAction="ifRoom" />
+
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="285dp"
+            android:layout_height="42dp"
+            android:layout_above="@+id/etPassword"
+            android:layout_marginBottom="16dp"
+            android:hint="Username"
+            android:textSize="13sp"
+            android:layout_alignLeft="@id/btnLogin" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="285dp"
+            android:layout_height="42dp"
+            android:layout_above="@+id/btnLogin"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textSize="13sp"
+            android:layout_alignLeft="@id/btnLogin" />
+    </RelativeLayout>
