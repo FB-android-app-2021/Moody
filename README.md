@@ -87,7 +87,7 @@ App that checks in on user's mental health and suggests movies, podcasts, and mu
   * Detail
 
 ## Wireframes
-<img src="Wireframe_moody1.png" width=600>
+<img src="Moody_Wireframe.png" width=600>
 
 ## Schema
 
