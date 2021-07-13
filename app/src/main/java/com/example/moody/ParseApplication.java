@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.parse.Parse;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 public class ParseApplication extends Application {
     @Override
     public void onCreate() {
