@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //if someone is signed in take them straight to main activity
         if (ParseUser.getCurrentUser() != null) {
-            goMainActivity();
+            goMoodActivity();
         }
 
         etUsername = binding.etUsername;
@@ -63,10 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                 user.signUpInBackground(new SignUpCallback() {
                   public void done(ParseException e) {
                     if (e == null) {
-                      loginUser(username, password);
+                      goMoodActivity();
                     } else {
                         Log.e(TAG, "Issue with Sign up", e);
-                        Toast.makeText(LoginActivity.this, "This accoumt could not be created", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "This account could not be created", Toast.LENGTH_SHORT).show();
                         return;
                     }
                   }
@@ -86,15 +86,15 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "These username and password do not match an existing user.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                goMainActivity();
+                goMoodActivity();
                 Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
 
-    private void goMainActivity() {
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+    private void goMoodActivity() {
+        Intent i = new Intent(LoginActivity.this, DailyActivity.class);
         startActivity(i);
         //keeps user from going back to login activity
         finish();

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_200"
+    android:theme="@style/ThemeOverlay.Moody.FullscreenContainer"
+    tools:context=".DailyActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvMoodQ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text="How are you feeling today?"
+        android:textColor="@color/purple_text"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnHappy"
+        android:layout_width="163dp"
+        android:layout_height="105dp"
+        android:layout_below="@+id/tvMoodQ"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="97dp"
+        android:text="Good!"
+        app:backgroundTint="@color/purple_text" />
+
+    <Button
+        android:id="@+id/btnSad"
+        android:layout_width="163dp"
+        android:layout_height="105dp"
+        android:layout_below="@+id/tvMoodQ"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="258dp"
+        android:text="bad :("
+        app:backgroundTint="@color/purple_text" />
+</RelativeLayout>
