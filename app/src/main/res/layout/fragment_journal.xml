@@ -34,21 +34,23 @@
     <Button
         android:id="@+id/btnSave"
         android:layout_width="155dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_below="@+id/etEntry"
         android:layout_alignLeft="@id/etEntry"
         android:layout_marginTop="10dp"
         android:text="Save to journal"
+        android:textColor="@color/white"
         app:backgroundTint="@color/purple_text" />
 
     <Button
         android:id="@+id/btnDelete"
         android:layout_width="155dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_below="@+id/etEntry"
         android:layout_alignRight="@id/etEntry"
         android:layout_marginTop="10dp"
         android:text="Send off to space"
+        android:textColor="@color/white"
         app:backgroundTint="@color/purple_text" />
 
 </RelativeLayout>

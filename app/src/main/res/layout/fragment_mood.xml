@@ -33,7 +33,8 @@
         android:layout_below="@+id/tvMoodQ"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="97dp"
-        android:text="Good!"
+        android:text="Good :)"
+        android:textColor="@color/white"
         app:backgroundTint="@color/purple_text" />
 
     <Button
@@ -43,6 +44,7 @@
         android:layout_below="@+id/tvMoodQ"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="258dp"
-        android:text="bad :("
+        android:text="Bad :("
+        android:textColor="@color/white"
         app:backgroundTint="@color/purple_text" />
 </RelativeLayout>

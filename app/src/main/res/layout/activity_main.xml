@@ -22,12 +22,15 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/btnMenu"
+        <Button
+            android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="250dp"
-            android:src="@android:drawable/ic_menu_more"
+            android:layout_marginStart="190dp"
+            android:layout_marginLeft="190dp"
+            android:background="@color/purple_text"
+            android:text="Log out"
+            android:textColor="@color/white"
             app:showAsAction="ifRoom"
             tools:layout_editor_absoluteX="175dp"
             tools:layout_editor_absoluteY="18dp" />

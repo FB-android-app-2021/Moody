@@ -1,5 +1,7 @@
 package com.example.moody.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.moody.DailyActivity;
+import com.example.moody.LoginActivity;
+import com.example.moody.MainActivity;
 import com.example.moody.databinding.FragmentJournalBinding;
 
 public class JournalFragment extends Fragment {
@@ -45,6 +50,24 @@ public class JournalFragment extends Fragment {
         etEntry = binding.etEntry;
         btnSave = binding.btnSave;
         btnDelete = binding.btnDelete;
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMainActivity();
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMainActivity();
+            }
+        });
     }
+    public void goMainActivity() {
+        Intent i = new Intent(getActivity(), MainActivity.class);
+        startActivity(i);
+    }
+
 
 }
