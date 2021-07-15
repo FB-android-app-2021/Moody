@@ -5,4 +5,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="string_recs" />
+    <string name="profile">Profile</string>
+    <string name="recs">Recs</string>
+    <string name="journal">Journal</string>
 </resources>

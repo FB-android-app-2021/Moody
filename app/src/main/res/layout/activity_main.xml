@@ -36,4 +36,21 @@
             tools:layout_editor_absoluteY="18dp" />
     </androidx.appcompat.widget.Toolbar>
 
+    <FrameLayout
+        android:id="@+id/fragment_main_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/navBar"
+        android:layout_below="@id/toolbar">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom_navbar" />
+
+
 </RelativeLayout>

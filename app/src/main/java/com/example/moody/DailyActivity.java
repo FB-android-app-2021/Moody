@@ -5,11 +5,8 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.moody.databinding.ActivityDailyBinding;
-import com.example.moody.fragments.JournalFragment;
 import com.example.moody.fragments.MoodFragment;
 
 public class DailyActivity extends AppCompatActivity {

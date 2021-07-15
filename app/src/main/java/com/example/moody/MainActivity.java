@@ -1,21 +1,31 @@
 package com.example.moody;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.moody.databinding.ActivityMainBinding;
+import com.example.moody.fragments.JournalFragment;
+import com.example.moody.fragments.MediaFragment;
+import com.example.moody.fragments.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private Button btnLogout;
+    private BottomNavigationView navBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = binding.toolbar;
         btnLogout = binding.btnLogout;
+        navBar = binding.navBar;
+        navBar.setBackgroundColor(530);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +49,31 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        navBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.action_recs:
+                        fragment = new MediaFragment();
+                        break;
+                    case R.id.action_profile:
+                        fragment = new ProfileFragment();
+                        break;
+                    case R.id.action_journal:
+                    default:
+                        fragment = new JournalFragment();
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.fragment_main_placeholder, fragment).commit();
+                return true;
+            }
+        });
+
+        //set default selection for navBar to home
+        navBar.setSelectedItemId(R.id.action_recs);
+
 
     }
 }

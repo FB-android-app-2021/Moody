@@ -1,20 +1,19 @@
 package com.example.moody;
 
-import android.app.Application;
-import android.util.Log;
-
 import com.parse.Parse;
+import com.parse.ParseObject;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import android.app.Application;
 
 public class ParseApplication extends Application {
+
+    // Initializes Parse SDK as soon as the application is created
     @Override
     public void onCreate() {
         super.onCreate();
-        // Use for troubleshooting -- remove this line for production
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
-       //initialize Parse backend
+
+        ParseObject.registerSubclass(Entry.class);
+
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("FXnVKn8JG9QhkmMBESsdhLAOh8sl5P40BrtsO8A1")
                 .clientKey("7PYc16iJRwv9AYcWqzOiSelqemjBIIlisDssif6f")

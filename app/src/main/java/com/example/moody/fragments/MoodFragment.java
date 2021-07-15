@@ -24,6 +24,7 @@ public class MoodFragment extends Fragment {
     private Button btnHappy;
     private Button btnSad;
     FragmentMoodBinding binding;
+    String emotion;
     public static final String TAG = "MoodFragment";
 
     public MoodFragment() {
@@ -49,9 +50,10 @@ public class MoodFragment extends Fragment {
         btnHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                emotion = "Happy";
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_placeholder, new JournalFragment());
+                fragmentTransaction.replace(R.id.fragment_placeholder, new EntryFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -59,9 +61,10 @@ public class MoodFragment extends Fragment {
         btnSad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                emotion = "Sad";
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_placeholder, new JournalFragment());
+                fragmentTransaction.replace(R.id.fragment_placeholder, new EntryFragment());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

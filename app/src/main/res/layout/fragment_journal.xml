@@ -1,56 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     tools:context=".fragments.JournalFragment">
 
-    <TextView
-        android:id="@+id/tvJournalQ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="What's on your mind?"
-        android:textColor="@color/purple_text"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/etEntry"
-        android:layout_width="331dp"
-        android:layout_height="339dp"
-        android:layout_below="@+id/tvJournalQ"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:background="@color/white"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine" />
-
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="155dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/etEntry"
-        android:layout_alignLeft="@id/etEntry"
-        android:layout_marginTop="10dp"
-        android:text="Save to journal"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/purple_text" />
-
-    <Button
-        android:id="@+id/btnDelete"
-        android:layout_width="155dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/etEntry"
-        android:layout_alignRight="@id/etEntry"
-        android:layout_marginTop="10dp"
-        android:text="Send off to space"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/purple_text" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEntries"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="75dp" />
 </RelativeLayout>
