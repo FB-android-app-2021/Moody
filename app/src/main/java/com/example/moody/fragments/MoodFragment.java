@@ -51,23 +51,22 @@ public class MoodFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 emotion = "Happy";
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_placeholder, new EntryFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                goEntryFragment(emotion);
             }
         });
         btnSad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 emotion = "Sad";
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_placeholder, new EntryFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                goEntryFragment(emotion);
             }
         });
+    }
+    private void goEntryFragment(String emotion) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_placeholder, new EntryFragment(emotion));
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

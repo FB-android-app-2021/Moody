@@ -37,11 +37,12 @@ public class EntryFragment extends Fragment {
     private EditText etEntry;
     private Button btnSave;
     private Button btnDelete;
+    private String emotion;
 
     FragmentEntryBinding binding;
 
-    public EntryFragment() {
-        // Required empty public constructor
+    public EntryFragment(String emotion) {
+        this.emotion = emotion;
     }
 
     @Override
@@ -72,7 +73,6 @@ public class EntryFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 Log.i(TAG, "currentUser: " + currentUser);
-                String emotion = "Happy";
                 saveEntry(journalEntry, currentUser, emotion);
                 goMainActivity();
             }
@@ -94,7 +94,6 @@ public class EntryFragment extends Fragment {
         entry.setCaption(caption);
         entry.setAuthor(currentUser);
         entry.setEmotion(emotion);
-        Log.i(TAG, "about to save in parse database");
         entry.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
