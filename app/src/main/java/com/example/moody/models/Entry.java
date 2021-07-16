@@ -1,4 +1,4 @@
-package com.example.moody;
+package com.example.moody.models;
 
 import android.util.Log;
 

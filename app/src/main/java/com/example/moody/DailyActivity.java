@@ -3,8 +3,10 @@ package com.example.moody;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.moody.databinding.ActivityDailyBinding;
 import com.example.moody.fragments.MoodFragment;
@@ -23,5 +25,5 @@ public class DailyActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, new MoodFragment()).commit();
     }
-
+    
 }

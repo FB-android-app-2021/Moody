@@ -1,5 +1,6 @@
 package com.example.moody;
 
+import com.example.moody.models.Entry;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

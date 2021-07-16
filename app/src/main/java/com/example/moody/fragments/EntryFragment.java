@@ -1,6 +1,5 @@
 package com.example.moody.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,18 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.moody.DailyActivity;
-import com.example.moody.Entry;
-import com.example.moody.LoginActivity;
+import com.example.moody.models.Entry;
 import com.example.moody.MainActivity;
 import com.example.moody.databinding.FragmentEntryBinding;
-import com.example.moody.databinding.FragmentJournalBinding;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.io.File;
 
 public class EntryFragment extends Fragment {
 

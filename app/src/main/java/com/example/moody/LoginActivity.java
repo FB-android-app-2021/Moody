@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //if someone is signed in take them straight to main activity
         if (ParseUser.getCurrentUser() != null) {
-            goDailyActivity();
+            goMainActivity();
         }
 
         etUsername = binding.etUsername;
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "These username and password do not match an existing user.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                goDailyActivity();
+                goMainActivity();
                 Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
 
             }
@@ -93,16 +93,22 @@ public class LoginActivity extends AppCompatActivity {
                     return;
 
                 }
-                goDailyActivity();
+                goMainActivity();
                 Toast.makeText(LoginActivity.this, "Successful sign up!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void goDailyActivity() {
-        Intent i = new Intent(LoginActivity.this, DailyActivity.class);
-        startActivity(i);
-        //keeps user from going back to login activity
-        finish();
-    }
+//    private void goDailyActivity() {
+//        Intent i = new Intent(LoginActivity.this, DailyActivity.class);
+//        startActivity(i);
+//        //keeps user from going back to login activity
+//        finish();
+//    }
+private void goMainActivity() {
+    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+    startActivity(i);
+    //keeps user from going back to login activity
+    finish();
+}
 }

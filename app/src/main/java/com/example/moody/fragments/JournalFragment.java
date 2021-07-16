@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.moody.EntriesAdapter;
-import com.example.moody.Entry;
+import com.example.moody.adapters.EntriesAdapter;
+import com.example.moody.models.Entry;
 import com.example.moody.databinding.FragmentJournalBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
