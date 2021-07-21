@@ -34,10 +34,13 @@ public class MediaFragment extends Fragment {
     private TextView tvMovieCategory;
     private RecyclerView rvMovies;
 
+    //API Key b094fc10e8fc702bfc06d84810d0728
     public static final String TAG = "MediaFragment";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
-    public static final String NOW_PLAYING_KEY
-            = "movie/now_playing?api_key=eb094fc10e8fc702bfc06d84810d0728";
+    public static final String POPULAR_KEY
+            = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728";
+    public static final String TOP_RATED_KEY
+            = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728";
 
 
     FragmentMediaBinding binding;
@@ -65,7 +68,7 @@ public class MediaFragment extends Fragment {
         rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
        AsyncHttpClient client = new AsyncHttpClient();
-       client.get(BASE_URL + NOW_PLAYING_KEY, new JsonHttpResponseHandler() {
+       client.get(BASE_URL + TOP_RATED_KEY, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -87,6 +90,28 @@ public class MediaFragment extends Fragment {
                 Log.d(TAG, "onFailure");
             }
         });
+        client.get(BASE_URL + POPULAR_KEY, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    Log.i(TAG, "Results: " + results.toString());
+                    movieRecs.addAll(Movie.fromJsonArray(results));
+                    movieAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Movies: " + movieRecs.size());
+                } catch (JSONException e) {
+                    //log error
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
 
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
     }
+
 }
