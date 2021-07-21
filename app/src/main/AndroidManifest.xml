@@ -16,7 +16,7 @@
         <activity android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
-        <activity android:name=".DailyActivity"
+        <activity android:name=".ComposeActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
         <activity android:name=".LoginActivity">

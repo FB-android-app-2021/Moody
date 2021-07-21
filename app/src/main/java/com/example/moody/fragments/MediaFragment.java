@@ -10,15 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.moody.CustomAsyncTaskLoader;
 import com.example.moody.adapters.MovieAdapter;
-import com.example.moody.models.Movie;
 import com.example.moody.databinding.FragmentMediaBinding;
+import com.example.moody.models.Movie;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,11 +32,15 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class MediaFragment extends Fragment {
+public class MediaFragment extends Fragment implements
+        LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
 
     List<Movie> movieRecs;
     private TextView tvMovieCategory;
     private RecyclerView rvMovies;
+    private View loadingBar;
+    MovieAdapter movieAdapter;
+    LoaderManager loaderManager;
 
     //API Key b094fc10e8fc702bfc06d84810d0728
     public static final String TAG = "MediaFragment";
@@ -61,11 +69,14 @@ public class MediaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvMovies = binding.rvMovies;
         tvMovieCategory = binding.tvMovieCategory;
+        loadingBar = binding.loadingBar;
 
         movieRecs = new ArrayList<>();
-        MovieAdapter movieAdapter = new MovieAdapter(getActivity(), movieRecs);
+        movieAdapter = new MovieAdapter(getActivity(), movieRecs);
         rvMovies.setAdapter(movieAdapter);
         rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        getLoaderManager().initLoader(0, null, this);
+
 
        AsyncHttpClient client = new AsyncHttpClient();
        client.get(BASE_URL + TOP_RATED_KEY, new JsonHttpResponseHandler() {
@@ -112,6 +123,28 @@ public class MediaFragment extends Fragment {
                 Log.d(TAG, "onFailure");
             }
         });
+    }
+
+    @Override
+    public CustomAsyncTaskLoader onCreateLoader(int id, Bundle args) {
+        CustomAsyncTaskLoader asyncTaskLoader = new CustomAsyncTaskLoader(getActivity(),(ArrayList<Movie>) movieRecs);
+        asyncTaskLoader.forceLoad();
+        Log.i(TAG, "onCreateLoader");
+        return asyncTaskLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
+        movieAdapter.notifyDataSetChanged();
+        loadingBar.setVisibility(View.GONE);
+        rvMovies.setVisibility(View.VISIBLE);
+        Log.i(TAG, "onLoadFinish");
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
+        rvMovies.setAdapter(null);
+        Log.i(TAG, "onLoaderReset");
     }
 
 }

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.example.moody.databinding.ActivityDailyBinding;
 import com.example.moody.fragments.MoodFragment;
 
-public class DailyActivity extends AppCompatActivity {
+public class ComposeActivity extends AppCompatActivity {
 
     public static final String TAG = "DailyActivity";
 

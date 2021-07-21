@@ -16,6 +16,8 @@ public class Movie {
 
     //genre IDs
     //happy
+    //map<emotion, set>
+    //emotion enum
     String comedyId = "35";
     String familyId = "10751";
     String romanceId = "10749";

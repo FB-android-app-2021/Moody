@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MediaFragment">
 
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+
     <TextView
         android:id="@+id/tvMovieCategory"
         android:layout_width="wrap_content"

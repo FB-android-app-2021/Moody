@@ -1,27 +1,32 @@
 package com.example.moody;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.moody.activities.LoginActivity;
 import com.example.moody.databinding.ActivityMainBinding;
 import com.example.moody.fragments.JournalFragment;
 import com.example.moody.fragments.MediaFragment;
 import com.example.moody.fragments.ProfileFragment;
+import com.example.moody.models.Movie;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button btnLogout;
     private BottomNavigationView navBar;
+
 
 
     @Override

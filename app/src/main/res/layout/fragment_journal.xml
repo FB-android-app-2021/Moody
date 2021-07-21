@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,30 @@
         android:id="@+id/rvEntries"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginTop="75dp"
+        android:layout_below="@+id/tvJournalTitle"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:id="@+id/tvJournalTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/rvEntries"
+        android:layout_marginTop="20dp"
+        android:text="Your Journal"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnCompose"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_above="@+id/rvEntries"
+        android:layout_alignEnd="@id/rvEntries"
+        android:layout_marginStart="211dp"
+        android:layout_toEndOf="@+id/tvJournalTitle"
+        android:text="New"
+        android:textSize="10dp"
+        app:iconPadding="0dp" />
 </RelativeLayout>
