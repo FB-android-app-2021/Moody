@@ -79,6 +79,7 @@ public class EntryFragment extends Fragment {
     }
     public void goMainActivity() {
         Intent i = new Intent(getActivity(), MainActivity.class);
+        i.putExtra("emotion", emotion);
         startActivity(i);
     }
 

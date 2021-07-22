@@ -28,19 +28,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.Headers;
 
 public class MediaFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
+        LoaderManager.LoaderCallbacks<ArrayList<HashMap<String, Set<Movie>>>> {
 
+    ArrayList<HashMap<String, Set<Movie>>> movieData;
     List<Movie> movieRecs;
     private TextView tvMovieCategory;
     private RecyclerView rvMovies;
     private View loadingBar;
     MovieAdapter movieAdapter;
     LoaderManager loaderManager;
+
+    String emotion;
 
     //API Key b094fc10e8fc702bfc06d84810d0728
     public static final String TAG = "MediaFragment";
@@ -52,9 +57,10 @@ public class MediaFragment extends Fragment implements
 
 
     FragmentMediaBinding binding;
-    public MediaFragment() {
-        // Required empty public constructor
+    public MediaFragment(String emotion) {
+        this.emotion = emotion;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,8 +84,8 @@ public class MediaFragment extends Fragment implements
         getLoaderManager().initLoader(0, null, this);
 
 
-       AsyncHttpClient client = new AsyncHttpClient();
-       client.get(BASE_URL + TOP_RATED_KEY, new JsonHttpResponseHandler() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(BASE_URL + TOP_RATED_KEY, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -87,7 +93,7 @@ public class MediaFragment extends Fragment implements
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results.toString());
-                    movieRecs.addAll(Movie.fromJsonArray(results));
+                    movieRecs.addAll(Movie.fromJsonArray(results, emotion));
                     movieAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Movies: " + movieRecs.size());
                 } catch (JSONException e) {
@@ -109,7 +115,7 @@ public class MediaFragment extends Fragment implements
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results.toString());
-                    movieRecs.addAll(Movie.fromJsonArray(results));
+                    movieRecs.addAll(Movie.fromJsonArray(results, emotion));
                     movieAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Movies: " + movieRecs.size());
                 } catch (JSONException e) {
@@ -127,14 +133,14 @@ public class MediaFragment extends Fragment implements
 
     @Override
     public CustomAsyncTaskLoader onCreateLoader(int id, Bundle args) {
-        CustomAsyncTaskLoader asyncTaskLoader = new CustomAsyncTaskLoader(getActivity(),(ArrayList<Movie>) movieRecs);
+        CustomAsyncTaskLoader asyncTaskLoader = new CustomAsyncTaskLoader(getActivity(), movieData);
         asyncTaskLoader.forceLoad();
         Log.i(TAG, "onCreateLoader");
         return asyncTaskLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
+    public void onLoadFinished(@NonNull @NotNull Loader<ArrayList<HashMap<String, Set<Movie>>>> loader, ArrayList<HashMap<String, Set<Movie>>> data) {
         movieAdapter.notifyDataSetChanged();
         loadingBar.setVisibility(View.GONE);
         rvMovies.setVisibility(View.VISIBLE);
@@ -142,7 +148,7 @@ public class MediaFragment extends Fragment implements
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<Movie>> loader) {
+    public void onLoaderReset(@NonNull @NotNull Loader<ArrayList<HashMap<String, Set<Movie>>>> loader) {
         rvMovies.setAdapter(null);
         Log.i(TAG, "onLoaderReset");
     }

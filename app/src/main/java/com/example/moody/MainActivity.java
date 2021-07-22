@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button btnLogout;
     private BottomNavigationView navBar;
-
+    String emotion;
 
 
     @Override
@@ -43,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        emotion = getIntent().getStringExtra("emotion");
+        if(emotion == null) {
+            emotion = "Happy";
+        }
 
         toolbar = binding.toolbar;
         btnLogout = binding.btnLogout;
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_recs:
-                        fragment = new MediaFragment();
+                        fragment = new MediaFragment(emotion);
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
