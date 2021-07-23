@@ -51,9 +51,10 @@ public class MediaFragment extends Fragment implements
     public static final String TAG = "MediaFragment";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String POPULAR_KEY
-            = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728";
+            = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     public static final String TOP_RATED_KEY
             = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728";
+    int max_pages = 1000;
 
 
     FragmentMediaBinding binding;
@@ -85,7 +86,10 @@ public class MediaFragment extends Fragment implements
 
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(BASE_URL + TOP_RATED_KEY, new JsonHttpResponseHandler() {
+        String CALLED_URL;
+        for(int i = 1; i <= max_pages; i++) {
+            CALLED_URL = BASE_URL + TOP_RATED_KEY + String.valueOf(i);
+        client.get(CALLED_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -107,28 +111,30 @@ public class MediaFragment extends Fragment implements
                 Log.d(TAG, "onFailure");
             }
         });
-        client.get(BASE_URL + POPULAR_KEY, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
-                    movieRecs.addAll(Movie.fromJsonArray(results, emotion));
-                    movieAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Movies: " + movieRecs.size());
-                } catch (JSONException e) {
-                    //log error
-                    Log.e(TAG, "Hit json exception", e);
+            CALLED_URL = BASE_URL + POPULAR_KEY + String.valueOf(i);
+            client.get(CALLED_URL, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        Log.i(TAG, "Results: " + results.toString());
+                        movieRecs.addAll(Movie.fromJsonArray(results, emotion));
+                        movieAdapter.notifyDataSetChanged();
+                        Log.i(TAG, "Movies: " + movieRecs.size());
+                    } catch (JSONException e) {
+                        //log error
+                        Log.e(TAG, "Hit json exception", e);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure");
-            }
-        });
+                @Override
+                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                    Log.d(TAG, "onFailure");
+                }
+            });
+        }
     }
 
     @Override
