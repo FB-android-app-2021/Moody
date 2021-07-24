@@ -32,6 +32,10 @@ public class MediaFragment extends Fragment {
 
     private TextView tvMovieCategory;
     private RecyclerView rvMovies;
+    private TextView tvTVCategory;
+    private RecyclerView rvTVshows;
+    private TextView tvMusicCategory;
+    private RecyclerView rvMusic;
     private View loadingBar;
     LoaderManager loaderManager;
     String emotion;
@@ -63,6 +67,10 @@ public class MediaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvMovies = binding.rvMovies;
         tvMovieCategory = binding.tvMovieCategory;
+        rvTVshows = binding.rvTVshows;
+        tvTVCategory = binding.tvTVCategory;
+        rvMusic = binding.rvMusic;
+        tvTVCategory = binding.tvMusicCategory;
         loadingBar = binding.loadingBar;
 
         movieRecs = new ArrayList<>();

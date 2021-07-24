@@ -29,4 +29,39 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp" />
 
+    <TextView
+        android:id="@+id/tvTVCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="Television"
+        android:layout_below="@id/rvMovies"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTVshows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTVCategory"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp" />
+    <TextView
+        android:id="@+id/tvMusicCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="Music"
+        android:layout_below="@id/rvTVshows"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMusic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMusicCategory"
+        android:layout_marginStart="5dp" />
+
+
 </RelativeLayout>
