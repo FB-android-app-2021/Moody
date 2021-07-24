@@ -18,6 +18,7 @@ import com.example.moody.models.Movie;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 

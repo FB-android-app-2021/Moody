@@ -64,15 +64,15 @@ public class Movie {
         //iterate through json array and construct a movie for each element in array
         for(int i = 0; i < movieJsonArray.length(); i++) {
             Movie newMovie = new Movie(movieJsonArray.getJSONObject(i));
-            //if(emotion == "Happy") {
+            if(emotion == "Happy") {
                 if (newMovie.getGenre().contains(comedyId) || newMovie.getGenre().contains(familyId) || newMovie.getGenre().contains(romanceId)) {
                     movies.add(newMovie);
-              //  }
+                }
             }
-            //else {
+            else {
                 if(newMovie.getGenre().contains(dramaId) || newMovie.getGenre().contains(warId) || newMovie.getGenre().contains(fantasyId)) {
                     movies.add(newMovie);
-              //  }
+                }
             }
         }
 
