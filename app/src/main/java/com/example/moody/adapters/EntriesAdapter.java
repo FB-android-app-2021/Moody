@@ -72,6 +72,8 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             Date createdAt = entry.getCreatedAt();
             String timeAgo = entry.calculateTimeAgo(createdAt);
             tvTimeStamp.setText(timeAgo);
+            String mood = entry.getEmotion();
+            tvEmotion.setText(mood);
         }
     }
 }

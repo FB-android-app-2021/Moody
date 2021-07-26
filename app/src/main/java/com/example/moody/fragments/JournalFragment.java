@@ -75,6 +75,7 @@ public class JournalFragment extends Fragment {
         ParseQuery<Entry> query = ParseQuery.getQuery(Entry.class);
         query.include(Entry.KEY_AUTHOR);
         query.whereEqualTo(Entry.KEY_AUTHOR, ParseUser.getCurrentUser());
+        query.addDescendingOrder("createdAt");
         query.setLimit(20);
         query.findInBackground(new FindCallback<Entry>() {
             @Override
