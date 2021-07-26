@@ -16,7 +16,6 @@ public class Entry extends ParseObject {
     public static final String KEY_AUTHOR = "author";
     public static final String KEY_EMOTION = "emotion";
 
-    //define getters and setters for each key using getter defined in PArseObject class
     public String getCaption() {
         return getString(KEY_CAPTION);
     }

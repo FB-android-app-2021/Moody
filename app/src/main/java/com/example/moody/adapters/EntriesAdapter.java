@@ -1,6 +1,7 @@
 package com.example.moody.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moody.R;
 import com.example.moody.models.Entry;
 
+import java.util.Date;
 import java.util.List;
 
 public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> {
     private Context context;
     private List<Entry> entries;
 
-    //constructor
     public EntriesAdapter(Context context , List<Entry> entries) {
         this.context = context;
         this.entries = entries;
@@ -43,13 +44,11 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         return entries.size();
     }
 
-    // Clean all elements of the recycler
     public void clear() {
         entries.clear();
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Entry> list) {
         entries.addAll(list);
         notifyDataSetChanged();
@@ -65,26 +64,7 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
         }
 
         public void bind(Entry entry) {
-            // Bind the post data to the view elements
             tvEntryPost.setText(entry.getCaption());
         }
-//        public void onClick(View v) {
-//            //get item position
-//            int pos = getAdapterPosition();
-//            //make sure pos exists in view
-//            if(pos != RecyclerView.NO_POSITION) {
-//                Entry entry = entries.get(pos);
-//                Intent intent = new Intent(context, ImageDetailActivity.class);
-//                //serialize pass data to new intent
-//                intent.putExtra("Caption", entry.getDescription());
-//                Date createdAt = entry.getCreatedAt();
-//                String timeAgo = entry.calculateTimeAgo(createdAt);
-//                intent.putExtra("Timestamp", timeAgo);
-//                intent.putExtra("User", entry.getUser().getUsername());
-//                //show activity
-//                context.startActivity(intent);
-//            }
-//        }
     }
 }
-

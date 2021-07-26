@@ -14,27 +14,8 @@ public class TVShow {
     String name;
     String genre;
 
-    //genre IDs
-    //happy
-    //map<emotion, set>
-    //emotion enum
-    String comedyId = "35";
-    String familyId = "10751";
-    String romanceId = "10749";
-
-    //sad
-    String dramaId = "18";
-
-    //excited
-    String actionId = "28";
-    String adventureId = "12";
-    String thrillerId = "53";
-
-    //JSON data
     private static final String RESULTS_TAG = "results";
 
-
-    //default constructor for parcel
     public TVShow() {}
 
     //constructor takes in json object and create show
@@ -44,22 +25,16 @@ public class TVShow {
         genre = jsonObject.getString("genre_ids");
 
     }
-    //creates and returns list of shows that takes in data we got back
+    //creates and returns list of filtered shows that takes in data we got back
     public static List<TVShow> fromJsonArray(JSONArray showJsonArray, String emotion) throws JSONException {
         String comedyId = "35";
         String familyId = "10751";
         String romanceId = "10749";
-        String animatedId = "16";
         String dramaId = "18";
-        String actionId = "28";
-        String adventureId = "12";
-        String thrillerId = "53";
         String fantasyId = "14";
-        String horrorId = "27";
         String warId = "10752";
-        String docId = "99";
+
         List<TVShow> shows = new ArrayList<>();
-        //iterate through json array and construct a tvshow for each element in array
         for(int i = 0; i < showJsonArray.length(); i++) {
             TVShow newShow = new TVShow(showJsonArray.getJSONObject(i));
             if(emotion == "Happy") {
@@ -77,7 +52,6 @@ public class TVShow {
 
     }
 
-    // getters for each member var that creates full url
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }

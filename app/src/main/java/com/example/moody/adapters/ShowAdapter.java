@@ -30,48 +30,40 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ViewHolder> {
         this.showRecs = shows;
     }
 
-    //inflates a layout from XML and returns VH
     @NonNull
     @NotNull
     @Override
     public ShowAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        Log.d("ShowAdapter", "onCreateViewHolder");
         View showView =  LayoutInflater.from(context).inflate(R.layout.item_tv, parent, false);
         return new ShowAdapter.ViewHolder(showView);
     }
 
-    //populates data into item through holder
     @Override
     public void onBindViewHolder(@NonNull @NotNull ShowAdapter.ViewHolder holder, int position) {
-        Log.d("ShowAdapter", "onBindViewHolder " + position);
         TVShow show = showRecs.get(position);
         holder.bind(show);
     }
 
-    //returns num items in list
     @Override
     public int getItemCount() {
         return showRecs.size();
     }
 
-    //define ViewHolder class for representation of show data
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvShowTitle;
         ImageView ivShow;
 
-        //constructor defines where data for views is coming from
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvShowTitle = itemView.findViewById(R.id.tvShowTitle);
             ivShow = itemView.findViewById(R.id.ivShow);
         }
 
-        //define bind function using getters to fill in data
         public void bind(TVShow show) {
             tvShowTitle.setText(show.getName());
             String imageUrl;
             imageUrl = show.getPosterPath();
-            int radius = 30; // corner radius, higher value = more rounded
+            int radius = 30;
             int margin = 10;
             Glide.with(context)
                     .load(imageUrl)

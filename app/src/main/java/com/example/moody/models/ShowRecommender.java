@@ -40,6 +40,7 @@ public class ShowRecommender {
         }
     }
 
+    //makes client calls to endpoint urls and returns list of all unfiltered tv show objects
     public void fetchTVData(TVCallBackPresenter showCallback) {
         showList = new ArrayList<>();
         for (int i = 1; i <= max_pages; i++) {
@@ -48,26 +49,19 @@ public class ShowRecommender {
                 @Override
                 public void onSuccess(int i, Headers headers, JSON json) {
                     showCallback.showLoader();
-                    Log.d(TAG, "onSuccess");
                     JSONObject jsonObject = json.jsonObject;
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
                         showList.addAll(TVShow.fromJsonArray(results, emotion));
-                        Log.i(TAG, "showList: " + showList.toString());
                         showCallback.hideLoader();
                         showCallback.success(showList);
-                        //set to list
-                        //scan over movieRecs set to see if there is duplication, if there is don't add to new list
-                        Log.i(TAG, "shows: " + showList.size());
                     } catch (JSONException e) {
                         showCallback.showError("Call could not be made");
-                        Log.e(TAG, "Hit json exception", e);
                     }
                 }
 
                 @Override
                 public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                    Log.d(TAG, "onFailure");
                 }
             });
             CALLED_URL = BASE_URL + POPULAR_KEY + String.valueOf(i);
@@ -75,26 +69,19 @@ public class ShowRecommender {
                 @Override
                 public void onSuccess(int i, Headers headers, JSON json) {
                     showCallback.showLoader();
-                    Log.d(TAG, "onSuccess");
                     JSONObject jsonObject = json.jsonObject;
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
                         showList.addAll(TVShow.fromJsonArray(results, emotion));
-                        Log.i(TAG, "showList: " + showList.toString());
                         showCallback.hideLoader();
                         showCallback.success(showList);
-                        //set to list
-                        //scan over movieRecs set to see if there is duplication, if there is don't add to new list
-                        Log.i(TAG, "shows: " + showList.size());
                     } catch (JSONException e) {
                         showCallback.showError("Call could not be made");
-                        Log.e(TAG, "Hit json exception", e);
                     }
                 }
 
                 @Override
                 public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                    Log.d(TAG, "onFailure");
                 }
             });
         }

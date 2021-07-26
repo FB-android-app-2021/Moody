@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
                 Intent i = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);
-                //keeps user from going back to main activity
                 finish();
             }
         });

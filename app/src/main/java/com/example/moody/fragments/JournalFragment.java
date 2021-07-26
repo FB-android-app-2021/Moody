@@ -39,7 +39,6 @@ public class JournalFragment extends Fragment {
     protected List<Entry> allEntries;
 
     public JournalFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -72,37 +71,23 @@ public class JournalFragment extends Fragment {
         });
     }
     protected void queryPosts() {
-        // specify what type of data we want to query - Entry.class
+        // specify what type of data we to query -> Entry.class
         ParseQuery<Entry> query = ParseQuery.getQuery(Entry.class);
         query.include(Entry.KEY_AUTHOR);
         query.whereEqualTo(Entry.KEY_AUTHOR, ParseUser.getCurrentUser());
         query.setLimit(20);
-        //query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Entry>() {
             @Override
             public void done(List<Entry> entries, ParseException e) {
-                // check for errors
                 if (e != null) {
-                    Log.e(TAG, "Issue with getting posts", e);
                     return;
                 }
-                // for debugging purposes let's print every post description to logcat
-                for (Entry post : entries) {
-                    Log.i(TAG, "Post: " + post.getCaption() + ", username: " + post.getAuthor().getUsername());
-                }
-
-                // save received posts to list and notify adapter of new data
                 allEntries.addAll(entries);
                 adapter.notifyDataSetChanged();
             }
         });
     }
     private void goMoodFragment() {
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_placeholder, new MoodFragment());
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
         Intent i = new Intent(getActivity(), ComposeActivity.class);
         startActivity(i);
     }

@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onCLick login button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
@@ -52,22 +51,19 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onCLick signup button");
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 signupUser(username, password);
             }
         });
     }
+
     //if correct credentials navigate to main activity
     private void loginUser(String username, String password) {
-        Log.i(TAG, "Attempting to log in user " + username);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                //if parse exception is null then it succeeded
                 if(e != null) {
-                    Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, "These username and password do not match an existing user.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -77,18 +73,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    //if correct credentials navigate to main activity
+    //create new account and navigate to main activity
     private void signupUser(String username, String password) {
-        Log.i(TAG, "Attempting to sign up user " + username);
         ParseUser user = new ParseUser();
-        // Set core properties
         user.setUsername(username);
         user.setPassword(password);
-        // Invoke signUpInBackground
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "Issue with Sign up", e);
                     Toast.makeText(LoginActivity.this, "This account could not be created", Toast.LENGTH_SHORT).show();
                     return;
 
@@ -99,16 +91,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    private void goDailyActivity() {
-//        Intent i = new Intent(LoginActivity.this, DailyActivity.class);
-//        startActivity(i);
-//        //keeps user from going back to login activity
-//        finish();
-//    }
 private void goMainActivity() {
     Intent i = new Intent(LoginActivity.this, MainActivity.class);
     startActivity(i);
-    //keeps user from going back to login activity
     finish();
 }
 }

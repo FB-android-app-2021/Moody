@@ -41,7 +41,6 @@ public class EntryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //inflate layout for fragment
        binding = FragmentEntryBinding.inflate(getLayoutInflater(), container, false);
        View view = binding.getRoot();
        return view;
@@ -59,13 +58,11 @@ public class EntryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String journalEntry = etEntry.getText().toString();
-                Log.i(TAG, "caption: " + journalEntry);
                 if(journalEntry.isEmpty()) {
                     Toast.makeText(getContext(), "We can't save an empty entry. Write down a little of what's going on in your head.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                Log.i(TAG, "currentUser: " + currentUser);
                 saveEntry(journalEntry, currentUser, emotion);
                 goMainActivity();
             }
@@ -92,10 +89,8 @@ public class EntryFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if(e != null) {
-                    Log.e(TAG, "Error while saving", e);
                     Toast.makeText(getContext(), "Post save in Parse failed.", Toast.LENGTH_SHORT).show();
                 }
-                Log.i(TAG, "Post save was successful!");
                 //clear entry box after submit
                 etEntry.setText("");
             }

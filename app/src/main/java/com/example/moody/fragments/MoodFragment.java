@@ -28,13 +28,11 @@ public class MoodFragment extends Fragment {
     public static final String TAG = "MoodFragment";
 
     public MoodFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentMoodBinding.inflate(getLayoutInflater(), container, false);
         View view = binding.getRoot();
        return view;
