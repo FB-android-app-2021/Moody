@@ -23,6 +23,8 @@ import com.example.moody.models.Movie;
 import com.example.moody.models.MovieRecommender;
 import com.example.moody.models.ShowRecommender;
 import com.example.moody.models.TVShow;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import java.util.ArrayList;
 import java.util.List;
