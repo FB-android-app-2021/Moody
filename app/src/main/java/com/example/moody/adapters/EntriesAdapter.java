@@ -57,14 +57,21 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvEntryPost;
+        private TextView tvEmotion;
+        private TextView tvTimeStamp;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEntryPost = itemView.findViewById(R.id.tvEntryPost);
+            tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
+            tvEmotion = itemView.findViewById(R.id.tvEmotion);
         }
 
         public void bind(Entry entry) {
             tvEntryPost.setText(entry.getCaption());
+            Date createdAt = entry.getCreatedAt();
+            String timeAgo = entry.calculateTimeAgo(createdAt);
+            tvTimeStamp.setText(timeAgo);
         }
     }
 }
