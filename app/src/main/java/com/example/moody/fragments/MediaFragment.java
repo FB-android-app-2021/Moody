@@ -1,7 +1,6 @@
 package com.example.moody.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.moody.CallBackPresenter;
+import com.example.moody.callbacks.MovieCallBackPresenter;
 import com.example.moody.adapters.MovieAdapter;
+import com.example.moody.adapters.ShowAdapter;
+import com.example.moody.callbacks.TVCallBackPresenter;
 import com.example.moody.databinding.FragmentMediaBinding;
 import com.example.moody.models.Movie;
 import com.example.moody.models.MovieRecommender;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.moody.models.ShowRecommender;
+import com.example.moody.models.TVShow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class MediaFragment extends Fragment {
     private TextView tvMovieCategory;
     private RecyclerView rvMovies;
     private TextView tvTVCategory;
-    private RecyclerView rvTVshows;
+    private RecyclerView rvTVShows;
     private TextView tvMusicCategory;
     private RecyclerView rvMusic;
     private View loadingBar;
@@ -43,8 +43,10 @@ public class MediaFragment extends Fragment {
     ArrayList<Movie> movieRecs;
     MovieAdapter movieAdapter;
     MovieRecommender moodMovies;
-   // MovieAsyncTaskLoader movieAsyncTaskLoader;
-   CallBackPresenter movieCallBack;
+
+    ArrayList<TVShow> showRecs;
+    ShowAdapter showAdapter;
+    ShowRecommender moodShows;
 
 
     FragmentMediaBinding binding;
@@ -67,18 +69,19 @@ public class MediaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvMovies = binding.rvMovies;
         tvMovieCategory = binding.tvMovieCategory;
-        rvTVshows = binding.rvTVshows;
+        rvTVShows = binding.rvTVshows;
         tvTVCategory = binding.tvTVCategory;
         rvMusic = binding.rvMusic;
         tvTVCategory = binding.tvMusicCategory;
         loadingBar = binding.loadingBar;
 
+        //movie recyclerview initialization
         movieRecs = new ArrayList<>();
         moodMovies = new MovieRecommender(emotion);
         movieAdapter = new MovieAdapter(getActivity(), movieRecs);
         rvMovies.setAdapter(movieAdapter);
         rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        moodMovies.fetchData(new CallBackPresenter() {
+        moodMovies.fetchMovieData(new MovieCallBackPresenter() {
             @Override
             public void success(List<Movie> movies) {
                 movieRecs.addAll(movies);
@@ -100,6 +103,37 @@ public class MediaFragment extends Fragment {
             public void hideLoader() {
                 loadingBar.setVisibility(View.GONE);
                 rvMovies.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //tv show recyclerview initialization
+        showRecs = new ArrayList<>();
+        moodShows = new ShowRecommender(emotion);
+        showAdapter = new ShowAdapter(getActivity(), showRecs);
+        rvTVShows.setAdapter(showAdapter);
+        rvTVShows.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        moodShows.fetchTVData(new TVCallBackPresenter() {
+            @Override
+            public void success(List<TVShow> shows) {
+                showRecs.addAll(shows);
+                showAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void showError(String error) {
+                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showLoader() {
+                loadingBar.setVisibility(View.VISIBLE);
+                rvTVShows.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void hideLoader() {
+                loadingBar.setVisibility(View.GONE);
+                rvTVShows.setVisibility(View.VISIBLE);
             }
         });
     }

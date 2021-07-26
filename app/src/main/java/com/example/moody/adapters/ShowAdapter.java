@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moody.R;
-import com.example.moody.models.Movie;
+import com.example.moody.models.TVShow;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,66 +21,63 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-
-    //member vars: context (where adapter is being constructed from/ inflate view) & movies (list of data)
+public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ViewHolder> {
     Context context;
-    List<Movie> movieRecs;
+    List<TVShow> showRecs;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
+    public ShowAdapter(Context context, List<TVShow> shows) {
         this.context = context;
-        this.movieRecs = movies;
+        this.showRecs = shows;
     }
 
     //inflates a layout from XML and returns VH
     @NonNull
     @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        Log.d("MovieAdapter", "onCreateViewHolder");
-        View movieView =  LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
-        return new ViewHolder(movieView);
+    public ShowAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        Log.d("ShowAdapter", "onCreateViewHolder");
+        View showView =  LayoutInflater.from(context).inflate(R.layout.item_tv, parent, false);
+        return new ShowAdapter.ViewHolder(showView);
     }
 
     //populates data into item through holder
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        Log.d("MovieAdapter", "onBindViewHolder " + position);
-        Movie movie = movieRecs.get(position);
-        holder.bind(movie);
+    public void onBindViewHolder(@NonNull @NotNull ShowAdapter.ViewHolder holder, int position) {
+        Log.d("ShowAdapter", "onBindViewHolder " + position);
+        TVShow show = showRecs.get(position);
+        holder.bind(show);
     }
 
     //returns num items in list
     @Override
     public int getItemCount() {
-        return movieRecs.size();
+        return showRecs.size();
     }
 
-    //define ViewHolder class for representation of movie data
+    //define ViewHolder class for representation of show data
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //movie views
-        TextView tvMovieTitle;
-        ImageView ivMovie;
+        TextView tvShowTitle;
+        ImageView ivShow;
 
         //constructor defines where data for views is coming from
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            tvMovieTitle = itemView.findViewById(R.id.tvMovieTitle);
-            ivMovie = itemView.findViewById(R.id.ivMovie);
+            tvShowTitle = itemView.findViewById(R.id.tvShowTitle);
+            ivShow = itemView.findViewById(R.id.ivShow);
         }
 
         //define bind function using getters to fill in data
-        public void bind(Movie movie) {
-            tvMovieTitle.setText(movie.getTitle());
+        public void bind(TVShow show) {
+            tvShowTitle.setText(show.getName());
             String imageUrl;
-            imageUrl = movie.getPosterPath();
+            imageUrl = show.getPosterPath();
             int radius = 30; // corner radius, higher value = more rounded
             int margin = 10;
             Glide.with(context)
                     .load(imageUrl)
                     .centerCrop()
                     .transform(new RoundedCornersTransformation(radius, margin))
-                    .into(ivMovie);
+                    .into(ivShow);
         }
     }
 }
