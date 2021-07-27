@@ -85,31 +85,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
         @Override
         public void onClick(View v) {
-            Log.d("Adapter: ", "Click");
             int pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION) {
                 Movie movie = movieRecs.get(pos);
-                goDetailFragment(movie);
-//                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-//                FragmentManager fragmentManager = activity.getSupportFragmentManager();
-//                MovieDetailFragment detailFragment = (MovieDetailFragment) fragmentManager.findFragmentById(R.id.detailFrag);
-////                Fragment detailFragment = new MovieDetailFragment();
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable(Movie.class.getSimpleName(), Parcels.wrap(movie));
-//                detailFragment.setArguments(bundle);
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.fragment_placeholder, detailFragment)
-//                        .addToBackStack(null)
-//                        .commit();
+                goMovieDetailFragment(movie);
             }
         }
     }
-    private void goDetailFragment(Movie movie) {
+    private void goMovieDetailFragment(Movie movie) {
        Fragment detailFragment = new MovieDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(Movie.class.getSimpleName(), Parcels.wrap(movie));
         detailFragment.setArguments(bundle);
-        switchContent(R.id.mediaFrag, detailFragment);
+        switchContent(R.id.fragment_main_placeholder, detailFragment);
     }
     public void switchContent(int id, Fragment fragment) {
         if (context == null)

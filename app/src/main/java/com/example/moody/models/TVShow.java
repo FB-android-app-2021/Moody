@@ -5,14 +5,17 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class TVShow {
     String posterPath;
     String name;
     String genre;
+    String overview;
 
     private static final String RESULTS_TAG = "results";
 
@@ -23,6 +26,7 @@ public class TVShow {
         posterPath = jsonObject.getString("poster_path");
         name = jsonObject.getString("name");
         genre = jsonObject.getString("genre_ids");
+        overview = jsonObject.getString("overview");
 
     }
     //creates and returns list of filtered shows that takes in data we got back
@@ -63,4 +67,5 @@ public class TVShow {
     public String getGenre() {
         return genre;
     }
+    public String getOverview() { return overview;}
 }
