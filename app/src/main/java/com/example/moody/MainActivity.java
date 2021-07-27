@@ -6,15 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.moody.databinding.ActivityMainBinding;
 import com.example.moody.fragments.JournalFragment;
@@ -31,9 +34,18 @@ import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import com.google.android.material.snackbar.Snackbar;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,11 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navBar;
     String emotion;
 
-    private static final String CLIENT_ID = "your_client_id";
-    private static final String REDIRECT_URI = "http://com.yourdomain.yourapp/callback";
+    private static final String CLIENT_ID = "b97cdb0553524708b15b3c1173fec698";
+    private static final String REDIRECT_URI = "http://moody.com/callback";
     private SpotifyAppRemote mSpotifyAppRemote;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,11 +144,26 @@ public class MainActivity extends AppCompatActivity {
     private void connected() {
         //play a playlist
         mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
+
+        mSpotifyAppRemote.getPlayerApi()
+                .subscribeToPlayerState()
+                .setEventCallback(playerState -> {
+                    final Track track = playerState.track;
+                    if (track != null) {
+                        Log.d("MainActivity", track.name + " by " + track.artist.name);
+                    }
+                });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        // Aaand we will finish off here.
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+    }
+    public void switchContent(int id, Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(id, fragment, fragment.toString());
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

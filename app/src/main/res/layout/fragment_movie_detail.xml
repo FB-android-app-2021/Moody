@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailFrag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECEAE1"
+    tools:context=".fragments.MovieDetailFragment">
+
+    <TextView
+        android:id="@+id/tvdTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Movie Title"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvOverview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivdPoster"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="-4dp"
+        android:layout_marginRight="-4dp"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/ivdPoster"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_below="@+id/tvdTitle"
+        android:layout_marginTop="0dp"
+        tools:srcCompat="@tools:sample/avatars" />
+</RelativeLayout>

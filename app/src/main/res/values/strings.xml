@@ -9,4 +9,6 @@
     <string name="profile">Profile</string>
     <string name="recs">Recs</string>
     <string name="journal">Journal</string>
+    <string name="com_spotify_sdk_redirect_scheme">moody.com</string>
+    <string name="com_spotify_sdk_redirect_host">callback</string>
 </resources>
