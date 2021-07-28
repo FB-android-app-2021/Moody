@@ -1,6 +1,5 @@
 package com.example.moody.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,20 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.moody.MainActivity;
 import com.example.moody.R;
-import com.example.moody.databinding.FragmentMovieDetailBinding;
+import com.example.moody.databinding.FragmentMtvDetailBinding;
 import com.example.moody.models.Movie;
-import com.example.moody.models.MovieRecommender;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -52,7 +45,7 @@ public class MovieDetailFragment extends Fragment {
     Button btnTrailer;
     String youTubeKey;
 
-    FragmentMovieDetailBinding binding;
+    FragmentMtvDetailBinding binding;
 
     public MovieDetailFragment() {
     }
@@ -60,7 +53,7 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentMovieDetailBinding.inflate(getLayoutInflater());
+        binding = FragmentMtvDetailBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         return view;
     }
@@ -75,8 +68,10 @@ public class MovieDetailFragment extends Fragment {
         btnTrailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onStop();
-                goMovieTrailerFragment(youTubeKey);
+                if(youTubeKey != null) {
+                    onStop();
+                    goTrailerFragment(youTubeKey);
+                }
             }
         });
 
@@ -120,8 +115,8 @@ public class MovieDetailFragment extends Fragment {
             }
         });
    }
-    private void goMovieTrailerFragment(String youTubeKey) {
-        MovieTrailerFragment trailerFragment = new MovieTrailerFragment(youTubeKey);
+    public void goTrailerFragment(String youTubeKey) {
+        TrailerFragment trailerFragment = new TrailerFragment(youTubeKey);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_main_placeholder, trailerFragment);

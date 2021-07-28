@@ -16,6 +16,7 @@ public class TVShow {
     String name;
     String genre;
     String overview;
+    int id;
 
     private static final String RESULTS_TAG = "results";
 
@@ -27,6 +28,7 @@ public class TVShow {
         name = jsonObject.getString("name");
         genre = jsonObject.getString("genre_ids");
         overview = jsonObject.getString("overview");
+        id = jsonObject.getInt("id");
 
     }
     //creates and returns list of filtered shows that takes in data we got back
@@ -68,4 +70,8 @@ public class TVShow {
         return genre;
     }
     public String getOverview() { return overview;}
+
+    public int getID() {
+        return id;
+    }
 }

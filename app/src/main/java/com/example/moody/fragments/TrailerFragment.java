@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.moody.R;
-import com.example.moody.databinding.FragmentMovieTrailerBinding;
+import com.example.moody.databinding.FragmentTrailerBinding;
 import com.example.moody.models.Movie;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -22,20 +22,20 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class MovieTrailerFragment extends Fragment {
+public class TrailerFragment extends Fragment {
 
-    FragmentMovieTrailerBinding binding;
+    FragmentTrailerBinding binding;
     YouTubePlayerFragment youtubeFragment;
     String youtubeKey;
 
-    public MovieTrailerFragment(String youTubeKey) {
+    public TrailerFragment(String youTubeKey) {
         this.youtubeKey = youTubeKey;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentMovieTrailerBinding.inflate(getLayoutInflater(), container, false);
+        binding = FragmentTrailerBinding.inflate(getLayoutInflater(), container, false);
         View view = binding.getRoot();
         return view;
     }
