@@ -1,51 +1,30 @@
 package com.example.moody;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.moody.databinding.ActivityMainBinding;
 import com.example.moody.fragments.JournalFragment;
 import com.example.moody.fragments.MediaFragment;
-import com.example.moody.fragments.ProfileFragment;
-import com.example.moody.models.Movie;
+import com.example.moody.fragments.AnonFeedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import com.google.android.material.snackbar.Snackbar;
-import com.spotify.sdk.android.auth.AuthorizationClient;
-import com.spotify.sdk.android.auth.AuthorizationRequest;
-import com.spotify.sdk.android.auth.AuthorizationResponse;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-
-import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -94,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_recs:
                         fragment = new MediaFragment(emotion);
                         break;
-                    case R.id.action_profile:
-                        fragment = new ProfileFragment();
+                    case R.id.action_feed:
+                        fragment = new AnonFeedFragment();
                         break;
                     case R.id.action_journal:
                     default:

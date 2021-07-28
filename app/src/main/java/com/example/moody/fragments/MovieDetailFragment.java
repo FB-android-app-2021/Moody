@@ -97,21 +97,17 @@ public class MovieDetailFragment extends Fragment {
         client.get(requestUrl, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
                     JSONObject video = results.getJSONObject(0);
                     youTubeKey = video.getString("key");
                 } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
                 }
             }
 
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure");
             }
         });
    }
