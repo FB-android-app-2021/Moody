@@ -16,9 +16,8 @@ public class Movie {
     String posterPath;
     String title;
     String genre;
-    String id;
+    int id;
     String overview;
-    private static final String RESULTS_TAG = "results";
 
     public Movie() {}
 
@@ -26,7 +25,7 @@ public class Movie {
         posterPath = jsonObject.getString("poster_path");
         title = jsonObject.getString("title");
         genre = jsonObject.getString("genre_ids");
-       // id = jsonObject.getString("id");
+        id = jsonObject.getInt("id");
         overview = jsonObject.getString("overview");
 
 
@@ -68,9 +67,7 @@ public class Movie {
     public String getGenre() {
         return genre;
     }
-//    public String getID() {
-//        return id;
-//    }
+    public int getID() { return id; }
     public String getOverview() {
         return overview;
     }

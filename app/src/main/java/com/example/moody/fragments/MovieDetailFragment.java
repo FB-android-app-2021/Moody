@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,6 +25,10 @@ import com.example.moody.MainActivity;
 import com.example.moody.R;
 import com.example.moody.databinding.FragmentMovieDetailBinding;
 import com.example.moody.models.Movie;
+import com.example.moody.models.MovieRecommender;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -36,13 +41,16 @@ import okhttp3.Headers;
 
 public class MovieDetailFragment extends Fragment {
     public static final String TAG = "MovieDetailFragment";
-    //public static final String VIDEO_URL = MainActivity.BASE_URL + "movie/%d/videos?api_key=eb094fc10e8fc702bfc06d84810d0728";
+    public static final String BASE_URL = "https://api.themoviedb.org/3/";
+    public static final String VIDEO_URL = BASE_URL + "movie/%d/videos?api_key=eb094fc10e8fc702bfc06d84810d0728";
     Movie movie;
+
 
     TextView tvdTitle;
     TextView tvOverview;
     ImageView ivdPoster;
-   // String youTubeKey;
+    Button btnTrailer;
+    String youTubeKey;
 
     FragmentMovieDetailBinding binding;
 
@@ -63,6 +71,14 @@ public class MovieDetailFragment extends Fragment {
         tvdTitle = binding.tvdTitle;
         tvOverview = binding.tvOverview;
         ivdPoster = binding.ivdPoster;
+        btnTrailer = binding.btnTrailer;
+        btnTrailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStop();
+                goMovieTrailerFragment(youTubeKey);
+            }
+        });
 
         //unwrap movie passed in via bundle using name as key
         Bundle bundle = this.getArguments();
@@ -80,35 +96,36 @@ public class MovieDetailFragment extends Fragment {
                 .load(posterUrl)
                 .transform(new RoundedCornersTransformation(radius, margin))
                 .into(ivdPoster);
-//        AsyncHttpClient client = new AsyncHttpClient();
-//        //get request on URL to get currently playing movies and save as constant
-//        //movie api uses json so json response handler necessary
-//        String requestUrl = String.format(VIDEO_URL, movie.getID());
-//        client.get(requestUrl, new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int i, Headers headers, JSON json) {
-//                Log.d(TAG, "onSuccess");
-//                //get data we want from json obj
-//                JSONObject jsonObject = json.jsonObject;
-//                //key may not exist when parsing out json
-//                try {
-//                    JSONArray results = jsonObject.getJSONArray("results");
-//                    //write to info level for debugging
-//                    Log.i(TAG, "Results: " + results.toString());
-//
-//                    JSONObject video = results.getJSONObject(0);
-//                    youTubeKey = video.getString("key");
-//
-//                } catch (JSONException e) {
-//                    //log error
-//                    Log.e(TAG, "Hit json exception", e);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-//                Log.d(TAG, "onFailure");
-//            }
-//        });
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        String requestUrl = String.format(VIDEO_URL, movie.getID());
+        client.get(requestUrl, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    Log.i(TAG, "Results: " + results.toString());
+                    JSONObject video = results.getJSONObject(0);
+                    youTubeKey = video.getString("key");
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
+   }
+    private void goMovieTrailerFragment(String youTubeKey) {
+        MovieTrailerFragment trailerFragment = new MovieTrailerFragment(youTubeKey);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_main_placeholder, trailerFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

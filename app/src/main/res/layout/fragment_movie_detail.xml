@@ -26,7 +26,7 @@
         android:id="@+id/tvOverview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivdPoster"
+        android:layout_below="@+id/btnTrailer"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
@@ -47,4 +47,16 @@
         android:layout_below="@+id/tvdTitle"
         android:layout_marginTop="0dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnTrailer"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_below="@+id/ivdPoster"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="3dp"
+        android:text="Watch Trailer"
+        android:textSize="10sp" />
 </RelativeLayout>
