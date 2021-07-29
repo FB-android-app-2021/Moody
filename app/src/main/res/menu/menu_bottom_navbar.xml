@@ -10,7 +10,7 @@
     <item
         android:id="@+id/action_feed"
         android:enabled="true"
-        android:title="@string/profile"
+        android:title="Feed"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_journal"

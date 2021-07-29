@@ -1,7 +1,6 @@
 package com.example.moody.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moody.R;
 import com.example.moody.models.Entry;
+import com.parse.ParseException;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -64,16 +65,23 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             super(itemView);
             tvEntryPost = itemView.findViewById(R.id.tvEntryPost);
             tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
-            tvEmotion = itemView.findViewById(R.id.tvEmotion);
+            tvEmotion = itemView.findViewById(R.id.tvPostEmotion);
         }
 
         public void bind(Entry entry) {
             tvEntryPost.setText(entry.getCaption());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd");
             Date createdAt = entry.getCreatedAt();
-            String timeAgo = entry.calculateTimeAgo(createdAt);
-            tvTimeStamp.setText(timeAgo);
+            String createdDate = dateFormat.format(createdAt);
+            tvTimeStamp.setText(createdDate);
             String mood = entry.getEmotion();
             tvEmotion.setText(mood);
+            if(mood.equals("Happy")) {
+                tvEmotion.setText("Happy Thought:");
+            }
+            else if(mood.equals("Sad")) {
+                tvEmotion.setText("Sad Thought:");
+            }
         }
     }
 }

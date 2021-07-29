@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.moody.R;
 import com.example.moody.adapters.EntriesAdapter;
+import com.example.moody.adapters.PostsAdapter;
 import com.example.moody.databinding.FragmentAnonFeedBinding;
 import com.example.moody.models.Entry;
 import com.parse.FindCallback;
@@ -32,8 +33,7 @@ public class AnonFeedFragment extends Fragment {
     public static final String TAG = "AnonFeedFragment";
 
     private RecyclerView rvAnonPosts;
-    //private TextView tvPost;
-    protected EntriesAdapter adapter;
+    protected PostsAdapter adapter;
     protected List<Entry> allPosts;
 
     FragmentAnonFeedBinding binding;
@@ -54,7 +54,7 @@ public class AnonFeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvAnonPosts = binding.rvAnonPosts;
         allPosts = new ArrayList<>();
-        adapter = new EntriesAdapter(getContext(), allPosts);
+        adapter = new PostsAdapter(getContext(), allPosts);
         rvAnonPosts.setAdapter(adapter);
         rvAnonPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();

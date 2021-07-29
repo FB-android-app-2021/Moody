@@ -25,6 +25,9 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.types.Track;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "b97cdb0553524708b15b3c1173fec698";
     private static final String REDIRECT_URI = "http://moody.com/callback";
     private SpotifyAppRemote mSpotifyAppRemote;
+    private static final int REQUEST_CODE = 2242;
+    private static final String SCOPES = "playlist-read-private,app-remote-control,user-read-playback-state";
+    //instance variables
+    private static String mAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        authenticateSpotify();
 
         emotion = getIntent().getStringExtra("emotion");
         if(emotion == null) {
@@ -71,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_recs:
-                        fragment = new MediaFragment(emotion);
+                        fragment = new MediaFragment(emotion, mAccessToken);
                         break;
                     case R.id.action_feed:
                         fragment = new AnonFeedFragment();
@@ -144,5 +153,46 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(id, fragment, fragment.toString());
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    private void authenticateSpotify() {
+        //build request with correct scopes
+        AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
+        builder.setScopes(new String[]{SCOPES});
+        AuthorizationRequest request = builder.build();
+        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+
+        // Check if result comes from the correct activity
+        if (requestCode == REQUEST_CODE) {
+            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
+
+            switch (response.getType()) {
+                // Response was successful and contains auth token
+                case TOKEN:
+
+                    //need token for any call
+                    mAccessToken = response.getAccessToken();
+                    Log.i("accessToken", mAccessToken);
+
+                    break;
+
+                // Auth flow returned an error
+                case ERROR:
+                    Log.i(TAG, "error when getting response");
+                    break;
+
+                // Most likely auth flow was cancelled
+                default:
+                    Log.i(TAG, "auth flow was cancelled");
+                    // Handle other cases
+            }
+        }
     }
 }

@@ -14,23 +14,27 @@ import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.moody.MainActivity;
+import com.example.moody.adapters.MusicAdapter;
 import com.example.moody.callbacks.MovieCallBackPresenter;
 import com.example.moody.adapters.MovieAdapter;
 import com.example.moody.adapters.ShowAdapter;
+import com.example.moody.callbacks.MusicCallBackPresenter;
 import com.example.moody.callbacks.TVCallBackPresenter;
 import com.example.moody.databinding.FragmentMediaBinding;
 import com.example.moody.models.Movie;
 import com.example.moody.models.MovieRecommender;
+import com.example.moody.models.MusicRecommender;
 import com.example.moody.models.ShowRecommender;
 import com.example.moody.models.TVShow;
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
+    String emotion;
+    String accessToken;
 
     private TextView tvMovieCategory;
     private RecyclerView rvMovies;
@@ -40,7 +44,6 @@ public class MediaFragment extends Fragment {
     private RecyclerView rvMusic;
     private View loadingBar;
     LoaderManager loaderManager;
-    String emotion;
 
     ArrayList<Movie> movieRecs;
     MovieAdapter movieAdapter;
@@ -50,11 +53,17 @@ public class MediaFragment extends Fragment {
     ShowAdapter showAdapter;
     ShowRecommender moodShows;
 
+    ArrayList<String> musicRecs;
+    MusicAdapter musicAdapter;
+    MusicRecommender moodMusic;
+
 
     FragmentMediaBinding binding;
 
-    public MediaFragment(String emotion) {
+    public MediaFragment(String emotion, String accessToken) {
+
         this.emotion = emotion;
+        this.accessToken = accessToken;
     }
 
 
@@ -119,6 +128,35 @@ public class MediaFragment extends Fragment {
             public void success(List<TVShow> shows) {
                 showRecs.addAll(shows);
                 showAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void showError(String error) {
+                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void showLoader() {
+                loadingBar.setVisibility(View.VISIBLE);
+                rvTVShows.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void hideLoader() {
+                loadingBar.setVisibility(View.GONE);
+                rvTVShows.setVisibility(View.VISIBLE);
+            }
+        });
+        musicRecs = new ArrayList<>();
+        moodMusic = new MusicRecommender(emotion, accessToken);
+        //musicAdapter = new MusicAdapter(getActivity(), showRecs);
+        //rvMusic.setAdapter(MusicAdapter);
+        rvMusic.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        moodMusic.fetchMusicData(new MusicCallBackPresenter() {
+            @Override
+            public void success(List<String> allMusic) {
+                musicRecs.addAll(allMusic);
+                //musicAdapter.notifyDataSetChanged();
             }
 
             @Override

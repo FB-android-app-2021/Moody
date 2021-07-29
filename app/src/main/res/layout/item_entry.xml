@@ -10,25 +10,26 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tvEntryPost"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/tvEmotion"
-        android:layout_marginEnd="3dp"
+        android:layout_alignBottom="@id/tvPostEmotion"
+        android:layout_marginEnd="15dp"
         tools:text="2 mins ago" />
 
     <TextView
-        android:id="@+id/tvEmotion"
+        android:id="@+id/tvPostEmotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="15dp"
         tools:text="happy" />
 
     <TextView
         android:id="@+id/tvEntryPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvEmotion"
+        android:layout_below="@id/tvPostEmotion"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="#E9E5ED"
         tools:text="Feeling sad today. Life really has a way of knocking you down sometimes. The weather isn't helping, I hope tomorrow is a better day." />
 </RelativeLayout>
