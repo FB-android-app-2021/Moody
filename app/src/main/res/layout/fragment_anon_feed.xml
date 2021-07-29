@@ -5,9 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AnonFeedFragment">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAnonPosts"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAnonPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 </RelativeLayout>
