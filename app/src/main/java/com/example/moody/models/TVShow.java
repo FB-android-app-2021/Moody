@@ -12,12 +12,16 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.moody.models.Movie.HAPPY_KEY;
+import static com.example.moody.models.Movie.SAD_KEY;
+
 @Parcel
 public class TVShow {
     String posterPath;
     String name;
     String genre;
     String overview;
+    String mood;
     int id;
 
     List<TVShow> showList;
@@ -26,9 +30,7 @@ public class TVShow {
     public static final String TAG = "ShowRecommender";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String POPULAR_KEY
-            = "tv/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
-    public static final String TOP_RATED_KEY
-            = "tv/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
+            = "tv/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=1";
     int max_pages = 100;
 
     private static final String RESULTS_TAG = "results";
@@ -74,17 +76,31 @@ public class TVShow {
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
-
     public String getName() {
         return name;
     }
-
     public String getGenre() {
         return genre;
     }
     public String getOverview() { return overview;}
-
     public int getID() {
         return id;
+    }
+    public String getMood() {
+        String comedyId = "35";
+        String familyId = "10751";
+        String animationId = "16";
+        String dramaId = "18";
+        String fantasyId = "14";
+        String crimeId = "80";
+        String realityId = "10764";
+        if (getGenre().contains(comedyId) || getGenre().contains(familyId) || getGenre().contains(animationId) || getGenre().contains(animationId)) {
+            mood = HAPPY_KEY;
+        } else if (getGenre().contains(dramaId) || getGenre().contains(crimeId) || getGenre().contains(fantasyId)) {
+            mood = SAD_KEY;
+        } else {
+            mood = "random";
+        }
+        return mood;
     }
 }

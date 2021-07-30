@@ -14,12 +14,13 @@ import java.util.Set;
 
 @Parcel
 public class Movie {
-    public static final String TAG = "MovieRecommender";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String POPULAR_KEY
             = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=1";
     public static final String TOP_RATED_KEY
             = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=1";
+    public static final String HAPPY_KEY = "Happy";
+    public static final String SAD_KEY = "SAD";
     String posterPath;
     String title;
     String genre;
@@ -88,9 +89,9 @@ public class Movie {
         String fantasyId = "14";
         String warId = "10752";
         if (getGenre().contains(comedyId) || getGenre().contains(familyId) || getGenre().contains(romanceId)) {
-            mood = "Happy";
+            mood = HAPPY_KEY;
         } else if (getGenre().contains(dramaId) || getGenre().contains(warId) || getGenre().contains(fantasyId)) {
-            mood = "Sad";
+            mood = SAD_KEY;
         } else {
             mood = "random";
         }

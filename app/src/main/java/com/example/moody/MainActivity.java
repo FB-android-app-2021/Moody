@@ -31,9 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.moody.models.MovieLoader.HAPPY_KEY;
-import static com.example.moody.models.MovieLoader.SAD_KEY;
-
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";

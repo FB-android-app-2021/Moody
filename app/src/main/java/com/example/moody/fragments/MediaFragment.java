@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.moody.models.MovieLoader.HAPPY_KEY;
-import static com.example.moody.models.MovieLoader.SAD_KEY;
+import static com.example.moody.models.Movie.HAPPY_KEY;
+import static com.example.moody.models.Movie.SAD_KEY;
 
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
@@ -118,8 +118,15 @@ public class MediaFragment extends Fragment {
         rvTVShows.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         moodShows.fetchTVData(new TVCallBackPresenter() {
             @Override
-            public void success(List<TVShow> shows) {
-                showRecs.addAll(shows);
+            public void success(Map<String, List<TVShow>> showMap) {
+                List<TVShow> sortedShows = new ArrayList<>();
+                if(emotion == HAPPY_KEY) {
+                    sortedShows.addAll(showMap.get(HAPPY_KEY));
+                }
+                else {
+                    sortedShows.addAll(showMap.get(SAD_KEY));
+                }
+                showRecs.addAll(sortedShows);
                 showAdapter.notifyDataSetChanged();
             }
 

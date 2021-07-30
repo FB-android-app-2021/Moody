@@ -31,6 +31,8 @@ import java.util.Map;
 import okhttp3.Headers;
 
 import static com.example.moody.models.Movie.BASE_URL;
+import static com.example.moody.models.Movie.HAPPY_KEY;
+import static com.example.moody.models.Movie.SAD_KEY;
 import static com.example.moody.models.Movie.TOP_RATED_KEY;
 
 public class MovieLoader extends AsyncTaskLoader<Map<String, List<Movie>>> {
@@ -43,8 +45,6 @@ public class MovieLoader extends AsyncTaskLoader<Map<String, List<Movie>>> {
     public static final String TAG = "MovieRecommender";
     int max_pages = 100;
 
-    public static final String HAPPY_KEY = "Happy";
-    public static final String SAD_KEY = "SAD";
 
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;

@@ -18,15 +18,15 @@ import java.util.Map;
 import okhttp3.Headers;
 
 import static com.example.moody.models.Movie.BASE_URL;
+import static com.example.moody.models.Movie.HAPPY_KEY;
 import static com.example.moody.models.Movie.POPULAR_KEY;
+import static com.example.moody.models.Movie.SAD_KEY;
 import static com.example.moody.models.Movie.TOP_RATED_KEY;
 
 public class FetchMovies {
 
 
     public static final String TAG = "MovieRecommender";
-    public static final String HAPPY_KEY = "Happy";
-    public static final String SAD_KEY = "SAD";
     List<Movie> sadMovieList;
     List<Movie> happyMovieList;
     Map<String, List<Movie>> movieMoodMap;

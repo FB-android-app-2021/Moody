@@ -13,21 +13,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Headers;
 
-public class FetchShows {
+import static com.example.moody.models.Movie.BASE_URL;
+import static com.example.moody.models.Movie.HAPPY_KEY;
+import static com.example.moody.models.Movie.SAD_KEY;
+import static com.example.moody.models.TVShow.POPULAR_KEY;
 
-    List<TVShow> showList;
+public class FetchShows {
+    public static final String TAG = "ShowRecommender";
+
+    List<TVShow> sadShowList;
+    List<TVShow> happyShowList;
+    Map<String, List<TVShow>> showMoodMap;
     String emotion;
     ShowAdapter showAdapter;
-    public static final String TAG = "ShowRecommender";
-    public static final String BASE_URL = "https://api.themoviedb.org/3/";
-    public static final String POPULAR_KEY
-            = "tv/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
-    public static final String TOP_RATED_KEY
-            = "tv/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     int max_pages = 100;
 
     AsyncHttpClient client = new AsyncHttpClient();
@@ -42,28 +46,10 @@ public class FetchShows {
 
     //makes client calls to endpoint urls and returns list of all unfiltered tv show objects
     public void fetchTVData(TVCallBackPresenter showCallback) {
-        showList = new ArrayList<>();
+        happyShowList = new ArrayList<>();
+        sadShowList = new ArrayList<>();
+        showMoodMap = new HashMap<>();
         for (int i = 1; i <= max_pages; i++) {
-            CALLED_URL = BASE_URL + TOP_RATED_KEY + String.valueOf(i);
-            client.get(CALLED_URL, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int i, Headers headers, JSON json) {
-                    showCallback.showLoader();
-                    JSONObject jsonObject = json.jsonObject;
-                    try {
-                        JSONArray results = jsonObject.getJSONArray("results");
-                        showList.addAll(TVShow.fromJsonArray(results, emotion));
-                        showCallback.hideLoader();
-                        showCallback.success(showList);
-                    } catch (JSONException e) {
-                        showCallback.showError("Call could not be made");
-                    }
-                }
-
-                @Override
-                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                }
-            });
             CALLED_URL = BASE_URL + POPULAR_KEY + String.valueOf(i);
             client.get(CALLED_URL, new JsonHttpResponseHandler() {
                 @Override
@@ -72,9 +58,19 @@ public class FetchShows {
                     JSONObject jsonObject = json.jsonObject;
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
-                        showList.addAll(TVShow.fromJsonArray(results, emotion));
+                        for (int j = 0; j < results.length(); j++) {
+                            TVShow newShow = new TVShow(results.getJSONObject(j));
+                            if (newShow.getMood().equals((HAPPY_KEY))) {
+                                happyShowList.add(newShow);
+                            }
+                            if (newShow.getMood().equals(SAD_KEY)) {
+                                sadShowList.add(newShow);
+                            }
+                        }
+                        showMoodMap.put(HAPPY_KEY, happyShowList);
+                        showMoodMap.put(SAD_KEY, sadShowList);
                         showCallback.hideLoader();
-                        showCallback.success(showList);
+                        showCallback.success(showMoodMap);
                     } catch (JSONException e) {
                         showCallback.showError("Call could not be made");
                     }
