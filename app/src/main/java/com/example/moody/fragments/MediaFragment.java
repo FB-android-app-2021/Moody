@@ -1,6 +1,8 @@
 package com.example.moody.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +12,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moody.MainActivity;
-import com.example.moody.adapters.MusicAdapter;
-import com.example.moody.callbacks.MovieCallBackPresenter;
 import com.example.moody.adapters.MovieAdapter;
 import com.example.moody.adapters.ShowAdapter;
 import com.example.moody.callbacks.MusicCallBackPresenter;
 import com.example.moody.callbacks.TVCallBackPresenter;
 import com.example.moody.databinding.FragmentMediaBinding;
 import com.example.moody.models.Movie;
-import com.example.moody.models.MovieRecommender;
-import com.example.moody.models.MusicRecommender;
-import com.example.moody.models.ShowRecommender;
+import com.example.moody.models.FetchMovies;
+import com.example.moody.models.FetchShows;
 import com.example.moody.models.TVShow;
 
 import java.util.ArrayList;
@@ -33,37 +33,23 @@ import java.util.List;
 
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
+    public static final String KEY_RECYCLER_STATE = "recycler_state";
+    public static MovieAdapter movieAdapter;
+    public static View loadingBar;
+    public static RecyclerView rvMovies;
     String emotion;
-    String accessToken;
-
     private TextView tvMovieCategory;
-    private RecyclerView rvMovies;
     private TextView tvTVCategory;
     private RecyclerView rvTVShows;
-    private TextView tvMusicCategory;
-    private RecyclerView rvMusic;
-    private View loadingBar;
-    LoaderManager loaderManager;
-
-    ArrayList<Movie> movieRecs;
-    MovieAdapter movieAdapter;
-    MovieRecommender moodMovies;
 
     ArrayList<TVShow> showRecs;
     ShowAdapter showAdapter;
-    ShowRecommender moodShows;
-
-    ArrayList<String> musicRecs;
-    MusicAdapter musicAdapter;
-    MusicRecommender moodMusic;
-
+    FetchShows moodShows;
 
     FragmentMediaBinding binding;
 
-    public MediaFragment(String emotion, String accessToken) {
-
+    public MediaFragment(String emotion) {
         this.emotion = emotion;
-        this.accessToken = accessToken;
     }
 
 
@@ -82,44 +68,42 @@ public class MediaFragment extends Fragment {
         tvMovieCategory = binding.tvMovieCategory;
         rvTVShows = binding.rvTVshows;
         tvTVCategory = binding.tvTVCategory;
-        rvMusic = binding.rvMusic;
-        tvTVCategory = binding.tvMusicCategory;
         loadingBar = binding.loadingBar;
 
         //movie recyclerview initialization
-        movieRecs = new ArrayList<>();
-        moodMovies = new MovieRecommender(emotion);
-        movieAdapter = new MovieAdapter(getActivity(), movieRecs);
-        rvMovies.setAdapter(movieAdapter);
-        rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        moodMovies.fetchMovieData(new MovieCallBackPresenter() {
-            @Override
-            public void success(List<Movie> movies) {
-                movieRecs.addAll(movies);
-                movieAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void showError(String error) {
-                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void showLoader() {
-                loadingBar.setVisibility(View.VISIBLE);
-                rvMovies.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void hideLoader() {
-                loadingBar.setVisibility(View.GONE);
-                rvMovies.setVisibility(View.VISIBLE);
-            }
-        });
+//        movieRecs = new ArrayList<>();
+//        moodMovies = new MovieRecommender();
+//        movieAdapter = new MovieAdapter(getActivity(), movieRecs);
+//        rvMovies.setAdapter(movieAdapter);
+//        rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+//        moodMovies.fetchMovieData(new MovieCallBackPresenter() {
+//            @Override
+//            public void success(List<Movie> movies) {
+//                movieRecs.addAll(movies);
+//                movieAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void showError(String error) {
+//                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void showLoader() {
+//                loadingBar.setVisibility(View.VISIBLE);
+//                rvMovies.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void hideLoader() {
+//                loadingBar.setVisibility(View.GONE);
+//                rvMovies.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         //tv show recyclerview initialization
         showRecs = new ArrayList<>();
-        moodShows = new ShowRecommender(emotion);
+        moodShows = new FetchShows(emotion);
         showAdapter = new ShowAdapter(getActivity(), showRecs);
         rvTVShows.setAdapter(showAdapter);
         rvTVShows.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -128,35 +112,6 @@ public class MediaFragment extends Fragment {
             public void success(List<TVShow> shows) {
                 showRecs.addAll(shows);
                 showAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void showError(String error) {
-                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void showLoader() {
-                loadingBar.setVisibility(View.VISIBLE);
-                rvTVShows.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void hideLoader() {
-                loadingBar.setVisibility(View.GONE);
-                rvTVShows.setVisibility(View.VISIBLE);
-            }
-        });
-        musicRecs = new ArrayList<>();
-        moodMusic = new MusicRecommender(emotion, accessToken);
-        //musicAdapter = new MusicAdapter(getActivity(), showRecs);
-        //rvMusic.setAdapter(MusicAdapter);
-        rvMusic.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        moodMusic.fetchMusicData(new MusicCallBackPresenter() {
-            @Override
-            public void success(List<String> allMusic) {
-                musicRecs.addAll(allMusic);
-                //musicAdapter.notifyDataSetChanged();
             }
 
             @Override

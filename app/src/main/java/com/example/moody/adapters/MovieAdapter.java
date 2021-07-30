@@ -33,8 +33,8 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
+    public static List<Movie> movieRecs;
     Context context;
-    List<Movie> movieRecs;
 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;

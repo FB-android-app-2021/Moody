@@ -17,7 +17,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class ShowRecommender {
+public class FetchShows {
 
     List<TVShow> showList;
     String emotion;
@@ -33,7 +33,7 @@ public class ShowRecommender {
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;
 
-    public ShowRecommender(String emotion) {
+    public FetchShows(String emotion) {
         this.emotion = emotion;
         if(emotion == null) {
             this.emotion = "Happy";

@@ -15,6 +15,8 @@ public class Entry extends ParseObject {
     public static final String KEY_CAPTION = "caption";
     public static final String KEY_AUTHOR = "author";
     public static final String KEY_EMOTION = "emotion";
+    public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_OBJ_ID = "objectId";
 
     public String getCaption() {
         return getString(KEY_CAPTION);
@@ -30,6 +32,12 @@ public class Entry extends ParseObject {
     }
     public String getEmotion() {return getString(KEY_EMOTION);}
     public void setEmotion(String emotion) { put(KEY_EMOTION, emotion);}
+    public String getId() {
+        return getString(KEY_OBJ_ID);
+    }
+    public void setId(String objectId) {
+        put(KEY_OBJ_ID, objectId);
+    }
     public static String calculateTimeAgo(Date createdAt) {
 
         int SECOND_MILLIS = 1000;

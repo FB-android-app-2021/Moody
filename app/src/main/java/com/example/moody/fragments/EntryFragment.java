@@ -1,5 +1,7 @@
 package com.example.moody.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -53,6 +56,15 @@ public class EntryFragment extends Fragment {
         etEntry = binding.etEntry;
         btnSave = binding.btnSave;
         btnDelete = binding.btnDelete;
+        binding.entryScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getActivity()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getWindow()
+                        .getCurrentFocus().getWindowToken(), 0);
+            }
+        });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override

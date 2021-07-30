@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -23,10 +24,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Headers;
 
-public class MovieRecommender extends AsyncTaskLoader<String> {
+public class FetchMovies extends AsyncTaskLoader<String> {
 
     List<Movie> movieList;
     String emotion;
@@ -37,6 +39,7 @@ public class MovieRecommender extends AsyncTaskLoader<String> {
     public static final String TOP_RATED_KEY
             = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     int max_pages = 100;
+    Map<String, List<Movie>> movieMoodMap;
 
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;
@@ -47,7 +50,7 @@ public class MovieRecommender extends AsyncTaskLoader<String> {
 //            this.emotion = "Happy";
 //        }
 //    }
-public MovieRecommender(Context context) {
+public FetchMovies(Context context) {
     super(context);
 }
 
@@ -101,5 +104,27 @@ public MovieRecommender(Context context) {
         }
         return movieJSONArrayString;
     }
-    //getMovieList
+    public List<Movie> getMovieList(Loader<String> loader, String data) {
+        movieList = new ArrayList<>();
+       // movieMoodMap = new Map<String, List<Movie>>();
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            JSONArray moviesArray = jsonObject.getJSONArray("results");
+            int i = 0;
+            String title = null;
+            String genre = null;
+            //JSONObject jsonObject = json.jsonObject;
+            int numMovies = 0;
+            while(numMovies < 10) {
+                Movie newMovie = new Movie(moviesArray.getJSONObject(i));
+                movieList.add(newMovie);
+                //update numMovies when adding to list
+                ++i;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return movieList;
+    }
 }

@@ -29,6 +29,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ViewHolder> {
     Context context;
     List<TVShow> showRecs;
+    int pos;
 
     public ShowAdapter(Context context, List<TVShow> shows) {
         this.context = context;
@@ -80,7 +81,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            int pos = getAdapterPosition();
+            pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION) {
                 TVShow show = showRecs.get(pos);
                 goTVDetailFragment(show);
@@ -88,7 +89,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ViewHolder> {
         }
     }
     private void goTVDetailFragment(TVShow show) {
-        Fragment detailFragment = new ShowDetailFragment();
+        Fragment detailFragment = new ShowDetailFragment(showRecs, pos);
         Bundle bundle = new Bundle();
         bundle.putParcelable(TVShow.class.getSimpleName(), Parcels.wrap(show));
         detailFragment.setArguments(bundle);

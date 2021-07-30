@@ -2,6 +2,8 @@ package com.example.moody.models;
 
 import android.util.Log;
 
+import com.example.moody.adapters.ShowAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +19,17 @@ public class TVShow {
     String genre;
     String overview;
     int id;
+
+    List<TVShow> showList;
+    String emotion;
+    //ShowAdapter showAdapter;
+    public static final String TAG = "ShowRecommender";
+    public static final String BASE_URL = "https://api.themoviedb.org/3/";
+    public static final String POPULAR_KEY
+            = "tv/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
+    public static final String TOP_RATED_KEY
+            = "tv/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
+    int max_pages = 100;
 
     private static final String RESULTS_TAG = "results";
 

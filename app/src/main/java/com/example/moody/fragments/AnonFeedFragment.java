@@ -1,5 +1,6 @@
 package com.example.moody.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.moody.EndlessRecyclerViewScrollListener;
 import com.example.moody.R;
 import com.example.moody.adapters.EntriesAdapter;
 import com.example.moody.adapters.PostsAdapter;
@@ -22,6 +24,7 @@ import com.example.moody.databinding.FragmentAnonFeedBinding;
 import com.example.moody.models.Entry;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -39,6 +42,7 @@ public class AnonFeedFragment extends Fragment {
     protected List<Entry> allPosts;
 
     private SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     FragmentAnonFeedBinding binding;
 
@@ -66,9 +70,23 @@ public class AnonFeedFragment extends Fragment {
             }
         });
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(getContext(), allPosts);
+        adapter = new PostsAdapter(getActivity(), allPosts);
         rvAnonPosts.setAdapter(adapter);
-        rvAnonPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        WrapContentLinearLayoutManager linearLayoutManager = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        rvAnonPosts.setLayoutManager(linearLayoutManager);
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyItemRangeInserted(totalItemsCount, allPosts.size() - 1);
+                    }
+                });
+                loadNextDataFromApi(page);
+            }
+        };
+        rvAnonPosts.addOnScrollListener(scrollListener);
         queryPosts();
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_purple,
@@ -76,7 +94,6 @@ public class AnonFeedFragment extends Fragment {
                 android.R.color.holo_green_dark);
     }
     protected void queryPosts() {
-        // specify what type of data we to query -> Entry.class
         ParseQuery<Entry> query = ParseQuery.getQuery(Entry.class);
         query.addDescendingOrder(Entry.KEY_CREATED_AT);
         query.setLimit(20);
@@ -93,7 +110,6 @@ public class AnonFeedFragment extends Fragment {
     }
     public void fetchTimelineAsync(int page) {
         ParseQuery<Entry> query = ParseQuery.getQuery(Entry.class);
-        query.include(Entry.KEY_AUTHOR);
         query.addDescendingOrder(Entry.KEY_CREATED_AT);
         query.setLimit(20);
         query.findInBackground(new FindCallback<Entry>() {
@@ -102,11 +118,59 @@ public class AnonFeedFragment extends Fragment {
                 if (e != null) {
                     return;
                 }
-                adapter.clear();
-                adapter.addAll(posts);
-                swipeContainer.setRefreshing(false);
+                if(posts != null) {
+                    adapter.clear();
+                    adapter.addAll(posts);
+                    scrollListener.resetState();
+                    swipeContainer.setRefreshing(false);
+                }
+                else {
+                    swipeContainer.setRefreshing(false);
+                }
             }
         });
+    }
+    private int limit =0;
+    private boolean loadMore = false;
+    public void loadNextDataFromApi(int offset) {
+    ParseQuery<Entry> query = ParseQuery.getQuery(Entry.class);
+    query.addDescendingOrder(Entry.KEY_CREATED_AT);
+        if(loadMore==true) {
+            query.setSkip(limit);
+            query.setLimit(1);
+        }
+        else {
+            query.setLimit(1);
+        }
+        query.findInBackground(new FindCallback<Entry>() {
+            @Override
+            public void done(List<Entry> arg0, ParseException arg1) {
+                limit = limit + arg0.size();
+                if (arg0.size() == 0) {
+                    loadMore = false;
+                } else {
+                    loadMore = true;
+                    adapter.swapItems(arg0);
+                    rvAnonPosts.scrollToPosition(0);
+                    scrollListener.resetState();
+                }
+            }
+        });
+    }
+    public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+        public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        //... constructor
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                Log.e("TAG", "meet a IOOBE in RecyclerView");
+            }
+        }
     }
 
 }

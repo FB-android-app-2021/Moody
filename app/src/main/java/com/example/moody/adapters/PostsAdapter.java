@@ -9,10 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moody.R;
 import com.example.moody.models.Entry;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.List;
@@ -21,11 +25,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     private Context context;
     private List<Entry> posts;
 
-    public PostsAdapter(Context context , List<Entry> posts) {
+    public PostsAdapter(Context context, List<Entry> posts) {
         this.context = context;
         this.posts = posts;
     }
-
 
     @NonNull
     @Override
@@ -35,7 +38,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         Entry post = posts.get(position);
         holder.bind(post);
     }
@@ -52,7 +55,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     public void addAll(List<Entry> list) {
         posts.addAll(list);
-        notifyDataSetChanged();
+        notifyItemInserted(0);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -105,6 +108,54 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             else if(mood.equals("Sad")) {
                 tvPostEmotion.setText(":(");
             }
+        }
+    }
+    public void swapItems(List<Entry> newPosts) {
+        // compute diffs
+        final EntryDiffCallback diffCallback = new EntryDiffCallback(this.posts, posts);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        int oldContentSize = this.posts.size();//Get the data length before refresh
+        notifyItemRangeRemoved(0,oldContentSize );
+        this.posts.addAll(newPosts);//Add new data
+        notifyItemRangeInserted(oldContentSize, EntryDiffCallback.mNewList.size() );
+
+        diffResult.dispatchUpdatesTo(this); // calls adapter's notify methods after diff is computed
+    }
+    public static class EntryDiffCallback extends DiffUtil.Callback {
+
+        private static List<Entry> mOldList;
+        public static List<Entry> mNewList;
+
+        public EntryDiffCallback(List<Entry> oldList, List<Entry> newList) {
+            this.mOldList = oldList;
+            this.mNewList = newList;
+        }
+        @Override
+        public int getOldListSize() {
+            return mOldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return mNewList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            // add a unique ID property on Entry and expose a getId() method
+            return mOldList.get(oldItemPosition).getId() == mNewList.get(newItemPosition).getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            Entry oldEntry = mOldList.get(oldItemPosition);
+            Entry newEntry = mNewList.get(newItemPosition);
+
+            if (oldEntry.getCaption().equals(newEntry.getCaption())) {
+                return true;
+            }
+            return false;
         }
     }
 }

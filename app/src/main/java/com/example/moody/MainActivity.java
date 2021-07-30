@@ -1,11 +1,14 @@
 package com.example.moody;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.moody.adapters.MovieAdapter;
 import com.example.moody.databinding.ActivityMainBinding;
 import com.example.moody.fragments.JournalFragment;
 import com.example.moody.fragments.MediaFragment;
 import com.example.moody.fragments.AnonFeedFragment;
+import com.example.moody.models.Movie;
+import com.example.moody.models.FetchMovies;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -29,12 +35,24 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-public class MainActivity extends AppCompatActivity {
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static com.example.moody.fragments.MediaFragment.movieAdapter;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     public static final String TAG = "MainActivity";
     private Toolbar toolbar;
     private Button btnLogout;
     private BottomNavigationView navBar;
+    public static MediaFragment moodRecs;
     String emotion;
 
     private static final String CLIENT_ID = "b97cdb0553524708b15b3c1173fec698";
@@ -45,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
     //instance variables
     private static String mAccessToken;
 
+    List<Movie> movieList;
+    Map<String, List<Movie>> movieMoodMap;
+    FetchMovies movieFetcher;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        authenticateSpotify();
+        //authenticateSpotify();
 
         emotion = getIntent().getStringExtra("emotion");
         if(emotion == null) {
@@ -80,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_recs:
-                        fragment = new MediaFragment(emotion, mAccessToken);
+                        moodRecs = new MediaFragment(emotion);
+                        fragment = moodRecs;
                         break;
                     case R.id.action_feed:
                         fragment = new AnonFeedFragment();
@@ -96,57 +120,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //set default selection for navBar to home
-        navBar.setSelectedItemId(R.id.action_recs);
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //spotify authorization and set up
-        ConnectionParams connectionParams =
-                new ConnectionParams.Builder(CLIENT_ID)
-                        .setRedirectUri(REDIRECT_URI)
-                        .showAuthView(true)
-                        .build();
+        navBar.setSelectedItemId(R.id.action_feed);
+       // getMovieInfo();
+//        if(getSupportLoaderManager().getLoader(0)!=null){
+//            getSupportLoaderManager().initLoader(0,null,this);
+//        }
 
-        SpotifyAppRemote.connect(this, connectionParams,
-                new Connector.ConnectionListener() {
-
-                    @Override
-                    public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                        mSpotifyAppRemote = spotifyAppRemote;
-                        Log.d("MainActivity", "Connected! Yay!");
-
-                        // Now you can start interacting with App Remote
-                        connected();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Log.e("MainActivity", throwable.getMessage(), throwable);
-
-                        // Something went wrong when attempting to connect! Handle errors here
-                    }
-                });
-    }
-
-    private void connected() {
-        //play a playlist
-        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
-
-        mSpotifyAppRemote.getPlayerApi()
-                .subscribeToPlayerState()
-                .setEventCallback(playerState -> {
-                    final Track track = playerState.track;
-                    if (track != null) {
-                        Log.d("MainActivity", track.name + " by " + track.artist.name);
-                    }
-                });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
     public void switchContent(int id, Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -154,45 +133,30 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack(null);
         ft.commit();
     }
+    //call in OnCreate
+    void getMovieInfo() {
+        movieFetcher = new FetchMovies(MainActivity.this);
+        movieFetcher.loadInBackground();
+    }
 
-    private void authenticateSpotify() {
-        //build request with correct scopes
-        AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{SCOPES});
-        AuthorizationRequest request = builder.build();
-        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
+    @NonNull
+    @NotNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable @org.jetbrains.annotations.Nullable Bundle args) {
+        return new FetchMovies(this);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull @NotNull Loader<String> loader, String data) {
+        MovieAdapter.movieRecs.addAll(movieFetcher.getMovieList(loader, data));
+        movieAdapter.notifyDataSetChanged();
+
+
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
+    public void onLoaderReset(@NonNull @NotNull Loader<String> loader) {
 
-
-        // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
-
-            switch (response.getType()) {
-                // Response was successful and contains auth token
-                case TOKEN:
-
-                    //need token for any call
-                    mAccessToken = response.getAccessToken();
-                    Log.i("accessToken", mAccessToken);
-
-                    break;
-
-                // Auth flow returned an error
-                case ERROR:
-                    Log.i(TAG, "error when getting response");
-                    break;
-
-                // Most likely auth flow was cancelled
-                default:
-                    Log.i(TAG, "auth flow was cancelled");
-                    // Handle other cases
-            }
-        }
     }
 }

@@ -9,11 +9,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEntries"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="400dp"
         android:layout_below="@+id/tvJournalTitle"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/tvJournalTitle"
@@ -36,4 +37,24 @@
         android:text="New"
         android:textSize="10dp"
         app:iconPadding="0dp" />
+
+    <TextView
+        android:id="@+id/tvIdea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rvEntries"
+        android:layout_alignStart="@id/rvEntries"
+        android:layout_alignEnd="@id/rvEntries"
+        android:layout_marginTop="70dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        tools:text="Learn to ride a bike" />
+
+    <TextView
+        android:id="@+id/tvIdeaLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rvEntries"
+        android:layout_alignStart="@id/rvEntries"
+        android:text="Here's an idea for you to do today!" />
 </RelativeLayout>

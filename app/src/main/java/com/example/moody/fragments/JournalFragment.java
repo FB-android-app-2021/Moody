@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.moody.ComposeActivity;
 import com.example.moody.adapters.EntriesAdapter;
 import com.example.moody.models.Entry;
@@ -24,19 +26,30 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Headers;
 
 
 public class JournalFragment extends Fragment {
 
+    public static final String TAG = "JournalFragment";
     private RecyclerView rvEntries;
     private TextView tvJournalTitle;
     private Button btnCompose;
+    private TextView tvIdea;
+
     FragmentJournalBinding binding;
-    public static final String TAG = "JournalFragment";
     protected EntriesAdapter adapter;
     protected List<Entry> allEntries;
+
+    AsyncHttpClient client = new AsyncHttpClient();
+    public static final String IDEA_URL = "http://www.boredapi.com/api/activity/";
 
     public JournalFragment() {
     }
@@ -56,6 +69,7 @@ public class JournalFragment extends Fragment {
         rvEntries = binding.rvEntries;
         tvJournalTitle = binding.tvJournalTitle;
         btnCompose = binding.btnCompose;
+        tvIdea = binding.tvIdea;
 
         allEntries = new ArrayList<>();
         adapter = new EntriesAdapter(getContext(), allEntries);
@@ -69,6 +83,25 @@ public class JournalFragment extends Fragment {
                goMoodFragment();
             }
         });
+
+        client.get(IDEA_URL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    String idea = jsonObject.getString("activity");
+                    tvIdea.setText(idea);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+
+            }
+        });
+
     }
     protected void queryPosts() {
         // specify what type of data we to query -> Entry.class
