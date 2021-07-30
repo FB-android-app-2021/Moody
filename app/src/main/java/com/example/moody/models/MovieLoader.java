@@ -9,6 +9,7 @@ import androidx.loader.content.Loader;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.moody.R;
 import com.example.moody.callbacks.MovieCallBackPresenter;
 
 import org.json.JSONArray;
@@ -23,14 +24,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.Headers;
 
-public class FetchMovies extends AsyncTaskLoader<String> {
+public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
     List<Movie> movieList;
+    List<Movie> sadMovieList;
+    List<Movie> happyMovieList;
     String emotion;
     public static final String TAG = "MovieRecommender";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
@@ -39,28 +43,35 @@ public class FetchMovies extends AsyncTaskLoader<String> {
     public static final String TOP_RATED_KEY
             = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     int max_pages = 100;
-    Map<String, List<Movie>> movieMoodMap;
+
+    public static final String HAPPY_KEY = "Happy";
+    public static final String SAD_KEY = "SAD";
 
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;
 
-//    public MovieRecommender(String emotion) {
+//    public FetchMovies(String emotion) {
 //        this.emotion = emotion;
 //        if(emotion == null) {
 //            this.emotion = "Happy";
 //        }
 //    }
-public FetchMovies(Context context) {
+public MovieLoader(Context context) {
     super(context);
 }
-
-    @Nullable
-    @org.jetbrains.annotations.Nullable
-    @Override
-    //hashmap
+//hashmap
     //filter method and code in loadInBackground
     //return movie list
-    public String loadInBackground() {
+
+    @Override
+    public void onStartLoading() {
+        super.onStartLoading();
+        forceLoad();
+    }
+
+    @Nullable
+    @Override
+    public List<Movie> loadInBackground() {
         movieList = new ArrayList<>();
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -84,7 +95,6 @@ public FetchMovies(Context context) {
                 builder.append("\n");
             }
             if (builder.length() == 0) {
-                // Stream was empty. No point in parsing.
                 return null;
             }
             movieJSONArrayString = builder.toString();
@@ -102,29 +112,37 @@ public FetchMovies(Context context) {
                 }
             }
         }
-        return movieJSONArrayString;
+       return getMovieList(movieJSONArrayString);
     }
-    public List<Movie> getMovieList(Loader<String> loader, String data) {
+    public List<Movie> getMovieList(String data) {
         movieList = new ArrayList<>();
-       // movieMoodMap = new Map<String, List<Movie>>();
+        sadMovieList = new ArrayList<>();
+        happyMovieList = new ArrayList<>();
+        Map<String, List<Movie>> movieMoodMap = new HashMap<>();
         try {
             JSONObject jsonObject = new JSONObject(data);
             JSONArray moviesArray = jsonObject.getJSONArray("results");
-            int i = 0;
             String title = null;
             String genre = null;
             //JSONObject jsonObject = json.jsonObject;
-            int numMovies = 0;
-            while(numMovies < 10) {
+            for(int i = 0 ; i < moviesArray.length(); i++) {
                 Movie newMovie = new Movie(moviesArray.getJSONObject(i));
-                movieList.add(newMovie);
-                //update numMovies when adding to list
-                ++i;
+                if (newMovie.getMood() == HAPPY_KEY) {
+                    happyMovieList.add(newMovie);
+                }
+                if (newMovie.getMood() == SAD_KEY) {
+                    sadMovieList.add(newMovie);
+                }
             }
+            movieMoodMap.put(HAPPY_KEY, happyMovieList);
+            movieMoodMap.put(SAD_KEY, sadMovieList);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return movieList;
+        if(emotion == HAPPY_KEY) {
+            return movieMoodMap.get(HAPPY_KEY);
+        }
+        return movieMoodMap.get(SAD_KEY);
+        }
     }
-}

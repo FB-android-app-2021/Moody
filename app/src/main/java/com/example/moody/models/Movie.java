@@ -14,21 +14,21 @@ import java.util.Set;
 
 @Parcel
 public class Movie {
-    String posterPath;
-    String title;
-    String genre;
-    int id;
-    String overview;
-
-    List<Movie> movieList;
-    String emotion;
-    String mood;
     public static final String TAG = "MovieRecommender";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String POPULAR_KEY
             = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     public static final String TOP_RATED_KEY
             = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
+    String posterPath;
+    String title;
+    String genre;
+    int id;
+    String mood;
+    String overview;
+
+    List<Movie> movieList;
+    String emotion;
     int max_pages = 100;
 
 
@@ -43,8 +43,6 @@ public class Movie {
 
 
     }
-
-    //creates and returns list of filtered movies that takes in data we got back
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray, String emotion) throws JSONException {
         String comedyId = "35";
         String familyId = "10751";
@@ -55,16 +53,23 @@ public class Movie {
         List<Movie> movies = new ArrayList<>();
         for(int i = 0; i < movieJsonArray.length(); i++) {
             Movie newMovie = new Movie(movieJsonArray.getJSONObject(i));
-            movies.add(newMovie);
+            if(emotion == "Happy") {
+                if (newMovie.getGenre().contains(comedyId) || newMovie.getGenre().contains(familyId) || newMovie.getGenre().contains(romanceId)) {
+                    movies.add(newMovie);
+                }
+            }
+            else {
+                if(newMovie.getGenre().contains(dramaId) || newMovie.getGenre().contains(warId) || newMovie.getGenre().contains(fantasyId)) {
+                    movies.add(newMovie);
+                }
+            }
         }
         return movies;
 
     }
-
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
     }
-
     public String getTitle() {
         return title;
     }
@@ -82,13 +87,11 @@ public class Movie {
         String dramaId = "18";
         String fantasyId = "14";
         String warId = "10752";
-        if(getGenre().contains(comedyId)|| getGenre().contains(familyId) || getGenre().contains(romanceId)) {
+        if (getGenre().contains(comedyId) || getGenre().contains(familyId) || getGenre().contains(romanceId)) {
             mood = "Happy";
-        }
-        else if(getGenre().contains(dramaId)|| getGenre().contains(warId) || getGenre().contains(fantasyId)) {
+        } else if (getGenre().contains(dramaId) || getGenre().contains(warId) || getGenre().contains(fantasyId)) {
             mood = "Sad";
-        }
-        else {
+        } else {
             mood = "random";
         }
         return mood;

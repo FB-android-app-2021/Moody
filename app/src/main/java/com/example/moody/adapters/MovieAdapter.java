@@ -35,6 +35,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public static List<Movie> movieRecs;
     Context context;
+    int pos;
 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -85,7 +86,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
         @Override
         public void onClick(View v) {
-            int pos = getAdapterPosition();
+            pos = getAdapterPosition();
             if(pos != RecyclerView.NO_POSITION) {
                 Movie movie = movieRecs.get(pos);
                 goMovieDetailFragment(movie);
@@ -93,7 +94,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
     private void goMovieDetailFragment(Movie movie) {
-       Fragment detailFragment = new MovieDetailFragment();
+       Fragment detailFragment = new MovieDetailFragment(movieRecs, pos);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Movie.class.getSimpleName(), Parcels.wrap(movie));
         detailFragment.setArguments(bundle);

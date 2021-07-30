@@ -129,7 +129,7 @@ public class ShowDetailFragment extends Fragment implements GestureDetector.OnGe
                 }
             });
 
-            //unwrap movie passed in via bundle using name as key
+            //unwrap show passed in via bundle using name as key
             Bundle bundle = this.getArguments();
             if (bundle != null) {
                 show = Parcels.unwrap(bundle.getParcelable(TVShow.class.getSimpleName()));
