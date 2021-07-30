@@ -17,9 +17,9 @@ public class Movie {
     public static final String TAG = "MovieRecommender";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String POPULAR_KEY
-            = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
+            = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=1";
     public static final String TOP_RATED_KEY
-            = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
+            = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=1";
     String posterPath;
     String title;
     String genre;

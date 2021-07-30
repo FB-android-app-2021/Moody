@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -35,11 +36,12 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Map;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import okhttp3.Headers;
 
-public class MovieDetailFragment extends Fragment implements GestureDetector.OnGestureListener{
+public class MovieDetailFragment extends Fragment implements GestureDetector.OnGestureListener {
     public static final String TAG = "MovieDetailFragment";
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String VIDEO_URL = BASE_URL + "movie/%d/videos?api_key=eb094fc10e8fc702bfc06d84810d0728";

@@ -3,9 +3,10 @@ package com.example.moody.callbacks;
 import com.example.moody.models.Movie;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MovieCallBackPresenter {
-    public void success(List<Movie> movies);
+    public void success(Map<String, List<Movie>> movieMap);
 
     public void showError(String error);
 

@@ -19,17 +19,19 @@ import com.example.moody.callbacks.MovieCallBackPresenter;
 import com.example.moody.callbacks.TVCallBackPresenter;
 import com.example.moody.databinding.FragmentMediaBinding;
 import com.example.moody.models.Movie;
-import com.example.moody.models.MovieLoader;
 import com.example.moody.models.FetchShows;
-import com.example.moody.models.MovieRecommender;
+import com.example.moody.models.FetchMovies;
 import com.example.moody.models.TVShow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.moody.models.MovieLoader.HAPPY_KEY;
+import static com.example.moody.models.MovieLoader.SAD_KEY;
 
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
-    public static final String KEY_RECYCLER_STATE = "recycler_state";
     public static View loadingBar;
     public static RecyclerView rvMovies;
     public static String emotion;
@@ -44,7 +46,7 @@ public class MediaFragment extends Fragment {
 
     public static ArrayList<Movie> movieRecs;
     public static MovieAdapter movieAdapter;
-    public static MovieRecommender moodMovies;
+    public static FetchMovies moodMovies;
 
     FragmentMediaBinding binding;
 
@@ -72,14 +74,21 @@ public class MediaFragment extends Fragment {
 
         //movie recyclerview initialization
         movieRecs = new ArrayList<>();
-        moodMovies = new MovieRecommender(emotion);
+        moodMovies = new FetchMovies(emotion);
         movieAdapter = new MovieAdapter(getActivity(), movieRecs);
         rvMovies.setAdapter(movieAdapter);
         rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         moodMovies.fetchMovieData(new MovieCallBackPresenter() {
             @Override
-            public void success(List<Movie> movies) {
-                movieRecs.addAll(movies);
+            public void success(Map<String, List<Movie>> movieMap) {
+                List<Movie> sortedMovies = new ArrayList<>();
+                if(emotion == HAPPY_KEY) {
+                    sortedMovies.addAll(movieMap.get(HAPPY_KEY));
+                }
+                else {
+                    sortedMovies.addAll(movieMap.get(SAD_KEY));
+                }
+                movieRecs.addAll(sortedMovies);
                 movieAdapter.notifyDataSetChanged();
             }
 

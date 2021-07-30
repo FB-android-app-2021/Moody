@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.moody.adapters.MovieAdapter;
 import com.example.moody.databinding.ActivityMainBinding;
 import com.example.moody.fragments.JournalFragment;
 import com.example.moody.fragments.MediaFragment;
@@ -28,10 +27,12 @@ import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.moody.fragments.MediaFragment.movieAdapter;
+import static com.example.moody.models.MovieLoader.HAPPY_KEY;
+import static com.example.moody.models.MovieLoader.SAD_KEY;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         navBar.setSelectedItemId(R.id.action_feed);
-        //getMovieInfo();
+       // getMovieInfo();
 
     }
     public void switchContent(int id, Fragment fragment) {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack(null);
         ft.commit();
     }
-//    //call in OnCreate
+    //call in OnCreate
 //    void getMovieInfo() {
 //        movieFetcher = new MovieLoader(MainActivity.this);
 //        movieFetcher.onStartLoading();
@@ -115,17 +116,26 @@ public class MainActivity extends AppCompatActivity {
 //    @NonNull
 //    @NotNull
 //    @Override
-//    public Loader<List<Movie>> onCreateLoader(int id, @Nullable Bundle args) {
+//    public Loader<Map<String, List<Movie>>> onCreateLoader(int id, @Nullable Bundle args) {
+//        //creates instance of loader
 //        return new MovieLoader(this);
 //    }
 //
 //    @Override
-//    public void onLoadFinished(@NonNull @NotNull Loader<List<Movie>> loader, List<Movie> data) {
-//        movieList = movieFetcher.loadInBackground();
+//    public void onLoadFinished(@NonNull @NotNull Loader<Map<String, List<Movie>>> loader, Map<String, List<Movie>> data) {
+//        List<Movie> sortedMovies = new ArrayList<>();
+//        if(emotion == HAPPY_KEY) {
+//            sortedMovies.addAll(movieMoodMap.get(HAPPY_KEY));
+//        }
+//        else {
+//            sortedMovies.addAll(movieMoodMap.get(SAD_KEY));
+//        }
+//        MediaFragment.movieRecs.addAll(sortedMovies);
+//        MediaFragment.movieAdapter.notifyDataSetChanged();
 //    }
 //
 //    @Override
-//    public void onLoaderReset(@NonNull @NotNull Loader<List<Movie>> loader) {
+//    public void onLoaderReset(@NonNull @NotNull Loader<Map<String, List<Movie>>> loader) {
 //
 //    }
 }

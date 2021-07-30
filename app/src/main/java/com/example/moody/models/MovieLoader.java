@@ -30,18 +30,17 @@ import java.util.Map;
 
 import okhttp3.Headers;
 
-public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
+import static com.example.moody.models.Movie.BASE_URL;
+import static com.example.moody.models.Movie.TOP_RATED_KEY;
+
+public class MovieLoader extends AsyncTaskLoader<Map<String, List<Movie>>> {
 
     List<Movie> movieList;
     List<Movie> sadMovieList;
     List<Movie> happyMovieList;
+    Map<String, List<Movie>> movieMoodMap;
     String emotion;
     public static final String TAG = "MovieRecommender";
-    public static final String BASE_URL = "https://api.themoviedb.org/3/";
-    public static final String POPULAR_KEY
-            = "movie/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
-    public static final String TOP_RATED_KEY
-            = "movie/top_rated?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     int max_pages = 100;
 
     public static final String HAPPY_KEY = "Happy";
@@ -50,15 +49,9 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;
 
-//    public FetchMovies(String emotion) {
-//        this.emotion = emotion;
-//        if(emotion == null) {
-//            this.emotion = "Happy";
-//        }
-//    }
-public MovieLoader(Context context) {
-    super(context);
-}
+    public MovieLoader(Context context) {
+        super(context);
+    }
 //hashmap
     //filter method and code in loadInBackground
     //return movie list
@@ -71,7 +64,7 @@ public MovieLoader(Context context) {
 
     @Nullable
     @Override
-    public List<Movie> loadInBackground() {
+    public Map<String, List<Movie>> loadInBackground() {
         movieList = new ArrayList<>();
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -112,25 +105,27 @@ public MovieLoader(Context context) {
                 }
             }
         }
-       return getMovieList(movieJSONArrayString);
+        getMovieMap(movieJSONArrayString);
+        return movieMoodMap;
     }
-    public List<Movie> getMovieList(String data) {
+
+    public void getMovieMap(String data) {
         movieList = new ArrayList<>();
         sadMovieList = new ArrayList<>();
         happyMovieList = new ArrayList<>();
-        Map<String, List<Movie>> movieMoodMap = new HashMap<>();
+        movieMoodMap = new HashMap<>();
         try {
             JSONObject jsonObject = new JSONObject(data);
             JSONArray moviesArray = jsonObject.getJSONArray("results");
             String title = null;
             String genre = null;
             //JSONObject jsonObject = json.jsonObject;
-            for(int i = 0 ; i < moviesArray.length(); i++) {
+            for (int i = 0; i < moviesArray.length(); i++) {
                 Movie newMovie = new Movie(moviesArray.getJSONObject(i));
-                if (newMovie.getMood() == HAPPY_KEY) {
+                if (newMovie.getMood().equals((HAPPY_KEY))) {
                     happyMovieList.add(newMovie);
                 }
-                if (newMovie.getMood() == SAD_KEY) {
+                if (newMovie.getMood().equals(SAD_KEY)) {
                     sadMovieList.add(newMovie);
                 }
             }
@@ -140,9 +135,5 @@ public MovieLoader(Context context) {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(emotion == HAPPY_KEY) {
-            return movieMoodMap.get(HAPPY_KEY);
-        }
-        return movieMoodMap.get(SAD_KEY);
-        }
     }
+}
