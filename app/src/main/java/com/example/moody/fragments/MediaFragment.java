@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.moody.R;
 import com.example.moody.adapters.MovieAdapter;
 import com.example.moody.adapters.ShowAdapter;
 import com.example.moody.callbacks.MovieCallBackPresenter;
@@ -22,6 +23,8 @@ import com.example.moody.models.Movie;
 import com.example.moody.models.FetchShows;
 import com.example.moody.models.FetchMovies;
 import com.example.moody.models.TVShow;
+import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager;
+import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +36,12 @@ import static com.example.moody.models.Movie.SAD_KEY;
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
     public static View loadingBar;
-    public static RecyclerView rvMovies;
     public static String emotion;
 
     private TextView tvMovieCategory;
+    public static CarouselRecyclerview rvMovies;
     private TextView tvTVCategory;
-    private RecyclerView rvTVShows;
+    public static CarouselRecyclerview rvTVShows;
 
     public static ArrayList<TVShow> showRecs;
     public static ShowAdapter showAdapter;
@@ -49,6 +52,7 @@ public class MediaFragment extends Fragment {
     public static FetchMovies moodMovies;
 
     FragmentMediaBinding binding;
+    private RecyclerView.LayoutManager CarouselLayoutManager;
 
     public MediaFragment(String emotion) {
         this.emotion = emotion;
@@ -77,7 +81,9 @@ public class MediaFragment extends Fragment {
         moodMovies = new FetchMovies(emotion);
         movieAdapter = new MovieAdapter(getActivity(), movieRecs);
         rvMovies.setAdapter(movieAdapter);
-        rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        rvMovies.setInfinite(true);
+        rvMovies.setLayoutManager(rvMovies.getCarouselLayoutManager());
+        //rvMovies.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         moodMovies.fetchMovieData(new MovieCallBackPresenter() {
             @Override
             public void success(Map<String, List<Movie>> movieMap) {
@@ -115,7 +121,9 @@ public class MediaFragment extends Fragment {
         moodShows = new FetchShows(emotion);
         showAdapter = new ShowAdapter(getActivity(), showRecs);
         rvTVShows.setAdapter(showAdapter);
-        rvTVShows.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        rvTVShows.setInfinite(true);
+        rvTVShows.setLayoutManager(rvTVShows.getCarouselLayoutManager());
+        //rvTVShows.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         moodShows.fetchTVData(new TVCallBackPresenter() {
             @Override
             public void success(Map<String, List<TVShow>> showMap) {

@@ -48,7 +48,7 @@
         android:layout_marginTop="70dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        tools:text="Learn to ride a bike" />
+        android:text="Learn to ride a bike" />
 
     <TextView
         android:id="@+id/tvIdeaLabel"

@@ -21,7 +21,6 @@ import com.example.moody.fragments.JournalFragment;
 import com.example.moody.fragments.MediaFragment;
 import com.example.moody.fragments.AnonFeedFragment;
 import com.example.moody.models.Movie;
-import com.example.moody.models.MovieLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     String emotion;
     List<Movie> movieList;
     Map<String, List<Movie>> movieMoodMap;
-    MovieLoader movieFetcher;
 
 
     @Override
@@ -103,36 +101,4 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack(null);
         ft.commit();
     }
-    //call in OnCreate
-//    void getMovieInfo() {
-//        movieFetcher = new MovieLoader(MainActivity.this);
-//        movieFetcher.onStartLoading();
-//    }
-//
-//
-//    @NonNull
-//    @NotNull
-//    @Override
-//    public Loader<Map<String, List<Movie>>> onCreateLoader(int id, @Nullable Bundle args) {
-//        //creates instance of loader
-//        return new MovieLoader(this);
-//    }
-//
-//    @Override
-//    public void onLoadFinished(@NonNull @NotNull Loader<Map<String, List<Movie>>> loader, Map<String, List<Movie>> data) {
-//        List<Movie> sortedMovies = new ArrayList<>();
-//        if(emotion == HAPPY_KEY) {
-//            sortedMovies.addAll(movieMoodMap.get(HAPPY_KEY));
-//        }
-//        else {
-//            sortedMovies.addAll(movieMoodMap.get(SAD_KEY));
-//        }
-//        MediaFragment.movieRecs.addAll(sortedMovies);
-//        MediaFragment.movieAdapter.notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public void onLoaderReset(@NonNull @NotNull Loader<Map<String, List<Movie>>> loader) {
-//
-//    }
 }

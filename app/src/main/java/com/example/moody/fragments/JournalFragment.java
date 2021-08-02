@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.moody.ComposeActivity;
+import com.example.moody.R;
 import com.example.moody.adapters.EntriesAdapter;
 import com.example.moody.models.Entry;
-import com.example.moody.databinding.FragmentJournalBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -44,11 +44,10 @@ public class JournalFragment extends Fragment {
     private Button btnCompose;
     private TextView tvIdea;
 
-    FragmentJournalBinding binding;
     protected EntriesAdapter adapter;
     protected List<Entry> allEntries;
 
-    AsyncHttpClient client = new AsyncHttpClient();
+    AsyncHttpClient client;
     public static final String IDEA_URL = "http://www.boredapi.com/api/activity/";
 
     public JournalFragment() {
@@ -57,19 +56,17 @@ public class JournalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentJournalBinding.inflate(getLayoutInflater(), container, false);
-        View view = binding.getRoot();
-        return view;
+        return inflater.inflate(R.layout.fragment_journal, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvEntries = binding.rvEntries;
-        tvJournalTitle = binding.tvJournalTitle;
-        btnCompose = binding.btnCompose;
-        tvIdea = binding.tvIdea;
+        rvEntries = view.findViewById(R.id.rvEntries);
+        tvJournalTitle = view.findViewById(R.id.tvJournalTitle);
+        btnCompose = view.findViewById(R.id.btnCompose);
+        tvIdea = view.findViewById(R.id.tvIdea);
 
         allEntries = new ArrayList<>();
         adapter = new EntriesAdapter(getContext(), allEntries);
@@ -84,6 +81,7 @@ public class JournalFragment extends Fragment {
             }
         });
 
+        client = new AsyncHttpClient();
         client.get(IDEA_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
