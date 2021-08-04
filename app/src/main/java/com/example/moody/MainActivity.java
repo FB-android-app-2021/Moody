@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.moody.models.Movie.RANDOM;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
@@ -38,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navBar;
     public static MediaFragment moodRecs;
 
-    String emotion;
-    List<Movie> movieList;
-    Map<String, List<Movie>> movieMoodMap;
+
+    public String recMood;
+
 
 
     @Override
@@ -49,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        emotion = getIntent().getStringExtra("emotion");
-        if(emotion == null) {
-            emotion = "Happy";
-        }
+//        recMood = getIntent().getStringExtra("emotion");
+//        if(recMood == null) {
+//            recMood = RANDOM;
+//        }
 
         toolbar = binding.toolbar;
         btnLogout = binding.btnLogout;
@@ -75,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_recs:
-                        moodRecs = new MediaFragment(emotion);
+                        recMood = getIntent().getStringExtra("emotion");
+                        moodRecs = new MediaFragment(recMood);
                         fragment = moodRecs;
                         break;
                     case R.id.action_feed:
@@ -90,9 +93,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         navBar.setSelectedItemId(R.id.action_feed);
-       // getMovieInfo();
+        String intentFrag = getIntent().getStringExtra("frgToLoad");
+        if(intentFrag != null) {
+            switch (intentFrag) {
+                case "media":
+                    navBar.setSelectedItemId(R.id.action_recs);
+                    break;
+
+            }
+        }
+
 
     }
     public void switchContent(int id, Fragment fragment) {

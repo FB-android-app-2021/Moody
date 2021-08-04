@@ -10,28 +10,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.moody.R;
 import com.example.moody.adapters.MovieAdapter;
 import com.example.moody.adapters.ShowAdapter;
 import com.example.moody.callbacks.MovieCallBackPresenter;
 import com.example.moody.callbacks.TVCallBackPresenter;
 import com.example.moody.databinding.FragmentMediaBinding;
-import com.example.moody.models.Movie;
-import com.example.moody.models.FetchShows;
 import com.example.moody.models.FetchMovies;
+import com.example.moody.models.FetchShows;
+import com.example.moody.models.Movie;
 import com.example.moody.models.TVShow;
-import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager;
 import com.jackandphantom.carouselrecyclerview.CarouselRecyclerview;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.moody.models.Movie.HAPPY_KEY;
-import static com.example.moody.models.Movie.SAD_KEY;
+import static com.example.moody.models.Movie.ANGRY;
+import static com.example.moody.models.Movie.ANXIOUS;
+import static com.example.moody.models.Movie.EXCITED;
+import static com.example.moody.models.Movie.HAPPY;
+import static com.example.moody.models.Movie.RANDOM;
+import static com.example.moody.models.Movie.SAD;
+import static com.example.moody.models.Movie.ZEN;
 
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
@@ -54,8 +56,11 @@ public class MediaFragment extends Fragment {
     FragmentMediaBinding binding;
     private RecyclerView.LayoutManager CarouselLayoutManager;
 
-    public MediaFragment(String emotion) {
-        this.emotion = emotion;
+    public MediaFragment(String recMood) {
+        if(recMood == null) {
+            this.emotion = RANDOM;
+        } else{
+        this.emotion = recMood;}
     }
 
 
@@ -88,13 +93,29 @@ public class MediaFragment extends Fragment {
             @Override
             public void success(Map<String, List<Movie>> movieMap) {
                 List<Movie> sortedMovies = new ArrayList<>();
-                if(emotion == HAPPY_KEY) {
-                    sortedMovies.addAll(movieMap.get(HAPPY_KEY));
+                if(emotion == HAPPY) {
+                    sortedMovies.addAll(movieMap.get(HAPPY));
                 }
-                else {
-                    sortedMovies.addAll(movieMap.get(SAD_KEY));
+                else if(emotion == SAD){
+                    sortedMovies.addAll(movieMap.get(SAD));
                 }
-                movieRecs.addAll(sortedMovies);
+                else if(emotion == ANXIOUS){
+                    sortedMovies.addAll(movieMap.get(ANXIOUS));
+                }
+                else if(emotion == ZEN){
+                    sortedMovies.addAll(movieMap.get(ZEN));
+                }
+                else if(emotion == ANGRY){
+                    sortedMovies.addAll(movieMap.get(ANGRY));
+                }
+                else if(emotion == EXCITED){
+                    sortedMovies.addAll(movieMap.get(EXCITED));
+                }
+                else if(emotion == RANDOM){
+                    sortedMovies.addAll(movieMap.get(RANDOM));
+                }
+                //movieRecs.addAll(sortedMovies);
+                addUniqueMovies(movieRecs, sortedMovies);
                 movieAdapter.notifyDataSetChanged();
             }
 
@@ -128,13 +149,13 @@ public class MediaFragment extends Fragment {
             @Override
             public void success(Map<String, List<TVShow>> showMap) {
                 List<TVShow> sortedShows = new ArrayList<>();
-                if(emotion == HAPPY_KEY) {
-                    sortedShows.addAll(showMap.get(HAPPY_KEY));
+                if(emotion == HAPPY) {
+                    sortedShows.addAll(showMap.get(HAPPY));
                 }
                 else {
-                    sortedShows.addAll(showMap.get(SAD_KEY));
+                    sortedShows.addAll(showMap.get(SAD));
                 }
-                showRecs.addAll(sortedShows);
+                addUniqueShows(showRecs, sortedShows);
                 showAdapter.notifyDataSetChanged();
             }
 
@@ -155,5 +176,39 @@ public class MediaFragment extends Fragment {
                 rvTVShows.setVisibility(View.VISIBLE);
             }
         });
+    }
+    void addUniqueMovies(List<Movie> movieRecs, List<Movie> newMovies) {
+        int movieCount = 0;
+        if(movieRecs != null) {
+                for (int i = 0; i < newMovies.size(); i++) {
+                    movieCount = 0;
+                    for (int j = 0; j < movieRecs.size(); j++) {
+                        if (newMovies.get(i).getID() == movieRecs.get(j).getID()) {
+                            movieCount++;
+                        }
+                    }
+                    if (movieCount == 0) {
+                        movieRecs.add(newMovies.get(i));
+                    }
+                }
+        }
+        else { movieRecs.addAll(newMovies);}
+    }
+    void addUniqueShows(List<TVShow> showRecs, List<TVShow> newShows) {
+        int movieCount = 0;
+        if(showRecs != null) {
+            for (int i = 0; i < newShows.size(); i++) {
+                movieCount = 0;
+                for (int j = 0; j < showRecs.size(); j++) {
+                    if (newShows.get(i).getID() == showRecs.get(j).getID()) {
+                        movieCount++;
+                    }
+                }
+                if (movieCount == 0) {
+                    showRecs.add(newShows.get(i));
+                }
+            }
+        }
+        else { showRecs.addAll(newShows);}
     }
 }

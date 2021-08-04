@@ -23,6 +23,10 @@ public class MoodFragment extends Fragment {
     private TextView tvMoodQ;
     private Button btnHappy;
     private Button btnSad;
+    private Button btnAnxious;
+    private Button btnZen;
+    private Button btnAngry;
+    private Button btnExcited;
     FragmentMoodBinding binding;
     String emotion;
     public static final String TAG = "MoodFragment";
@@ -44,18 +48,50 @@ public class MoodFragment extends Fragment {
         tvMoodQ = binding.tvMoodQ;
         btnHappy = binding.btnHappy;
         btnSad = binding.btnSad;
+        btnAnxious = binding.btnAnxious;
+        btnZen = binding.btnZen;
+        btnAngry = binding.btnAngry;
+        btnExcited = binding.btnExcited;
 
         btnHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotion = "Happy";
+                emotion = "happy";
                 goEntryFragment(emotion);
             }
         });
         btnSad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotion = "Sad";
+                emotion = "sad";
+                goEntryFragment(emotion);
+            }
+        });
+        btnAnxious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emotion = "anxious";
+                goEntryFragment(emotion);
+            }
+        });
+        btnZen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emotion = "zen";
+                goEntryFragment(emotion);
+            }
+        });
+        btnAngry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emotion = "angry";
+                goEntryFragment(emotion);
+            }
+        });
+        btnExcited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emotion = "excited";
                 goEntryFragment(emotion);
             }
         });

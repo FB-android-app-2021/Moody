@@ -17,5 +17,8 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivMovie"
+        android:layout_marginTop="1dp"
+        android:background="#FFFFFF"
+        android:textAlignment="center"
         tools:text="2Fast2Furious" />
 </RelativeLayout>

@@ -18,6 +18,26 @@ public class Entry extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_OBJ_ID = "objectId";
 
+//        public enum Mood {
+//        HAPPY("happy", 0),
+//        SAD("sad",1),
+//        ANXIOUS("anxious", 0),
+//        ZEN("zen", 0),
+//        ANGRY("angry", 0),
+//        EXCITED("excited", 0),;
+//
+//        private String stringValue;
+//        private int intValue;
+//        private Mood(String toString, int value) {
+//            stringValue = toString;
+//            intValue = value;
+//        }
+//        @Override
+//        public String toString() {
+//            return stringValue;
+//        }
+//    }
+
     public String getCaption() {
         return getString(KEY_CAPTION);
     }

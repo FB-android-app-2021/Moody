@@ -28,23 +28,75 @@
 
     <Button
         android:id="@+id/btnHappy"
-        android:layout_width="163dp"
-        android:layout_height="105dp"
-        android:layout_below="@+id/tvMoodQ"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="97dp"
-        android:text="Good :)"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/btnAngry"
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="30dp"
+        android:text="Happy"
         android:textColor="@color/white"
         app:backgroundTint="@color/purple_text" />
 
     <Button
         android:id="@+id/btnSad"
-        android:layout_width="163dp"
-        android:layout_height="105dp"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:layout_below="@id/btnExcited"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@id/btnHappy"
+        android:text="Sad"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/purple_text" />
+
+    <Button
+        android:id="@+id/btnAngry"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:layout_below="@id/btnAnxious"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="Angry"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/purple_text" />
+
+    <Button
+        android:id="@+id/btnExcited"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/btnZen"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/btnAngry"
+        android:text="Excited"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/purple_text" />
+
+    <Button
+        android:id="@+id/btnAnxious"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
         android:layout_below="@+id/tvMoodQ"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="258dp"
-        android:text="Bad :("
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="75dp"
+        android:text="Anxious"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/purple_text" />
+
+    <Button
+        android:id="@+id/btnZen"
+        android:layout_width="150dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/tvMoodQ"
+        android:layout_centerHorizontal="false"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="75dp"
+        android:layout_toEndOf="@id/btnAnxious"
+        android:text="Zen"
         android:textColor="@color/white"
         app:backgroundTint="@color/purple_text" />
 </RelativeLayout>

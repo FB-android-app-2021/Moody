@@ -25,7 +25,7 @@
     <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
         android:id="@+id/rvMovies"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:layout_below="@id/tvMovieCategory"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp" />
@@ -44,10 +44,9 @@
     <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
         android:id="@+id/rvTVshows"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:layout_below="@id/tvTVCategory"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp" />
-
 
 </RelativeLayout>

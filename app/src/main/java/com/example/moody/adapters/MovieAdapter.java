@@ -94,7 +94,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
     private void goMovieDetailFragment(Movie movie) {
-       Fragment detailFragment = new MovieDetailFragment(movieRecs, pos);
+        Fragment detailFragment = new MovieDetailFragment(movieRecs, pos);
         Bundle bundle = new Bundle();
         bundle.putParcelable(Movie.class.getSimpleName(), Parcels.wrap(movie));
         detailFragment.setArguments(bundle);

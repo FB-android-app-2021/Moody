@@ -17,5 +17,8 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivShow"
+        android:layout_marginTop="1dp"
+        android:background="#FFFFFF"
+        android:textAlignment="center"
         tools:text="Good Luck Charlie" />
 </RelativeLayout>
