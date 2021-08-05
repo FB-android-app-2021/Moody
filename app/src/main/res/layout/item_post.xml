@@ -18,38 +18,32 @@
         android:background="#E9E5ED"
         tools:text="All i want is love and laughs is all I want to much to ask - Olivia Rodrigo" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnExclaim"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@id/tvPost"
         android:layout_marginRight="5dp"
-        android:layout_toStartOf="@id/btnHeart"
-        android:backgroundTint="@color/purple_500"
-        android:text="!!"
-        android:textColor="@color/white"
-        android:textSize="10sp" />
+        android:layout_toStartOf="@id/tvNumLikes"
+        android:background="@drawable/purple_exclaim" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnHeart"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@id/tvPost"
         android:layout_marginRight="5dp"
-        android:layout_toStartOf="@id/btnComment"
-        android:backgroundTint="@color/purple_500"
-        android:text="3"
-        android:textColor="@color/white"
-        android:textSize="10sp" />
+        android:layout_toStartOf="@id/tvNumComments"
+        android:background="@drawable/purple_heart" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnComment"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@id/tvPost"
         android:layout_alignEnd="@id/tvPost"
         android:layout_marginEnd="5dp"
-        android:backgroundTint="@color/purple_500"
+        android:background="@drawable/purple_arrow"
         android:text="-"
         android:textColor="@color/white"
         android:textSize="10sp" />
@@ -73,5 +67,41 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         tools:text="2 days ago" />
+
+    <TextView
+        android:id="@+id/tvNumExclaims"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_alignBottom="@id/btnExclaim"
+        android:layout_marginEnd="1dp"
+        android:layout_toStartOf="@id/btnExclaim"
+        android:textAlignment="textEnd"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="3" />
+
+    <TextView
+        android:id="@+id/tvNumLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_alignBottom="@id/btnHeart"
+        android:layout_marginEnd="1dp"
+        android:layout_toStartOf="@id/btnHeart"
+        android:textAlignment="textEnd"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="25" />
+
+    <TextView
+        android:id="@+id/tvNumComments"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_alignBottom="@id/btnComment"
+        android:layout_marginEnd="1dp"
+        android:layout_toStartOf="@id/btnComment"
+        android:textAlignment="textEnd"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="11" />
 
 </RelativeLayout>

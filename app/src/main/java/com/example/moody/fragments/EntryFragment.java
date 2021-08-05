@@ -103,6 +103,8 @@ public class EntryFragment extends Fragment {
         entry.setCaption(caption);
         entry.setAuthor(currentUser);
         entry.setEmotion(emotion);
+        entry.setLikes(0);
+        entry.setExclaims(0);
         entry.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

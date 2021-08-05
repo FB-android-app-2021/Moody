@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moody.R;
 import com.example.moody.models.Entry;
+import com.example.moody.models.Movie;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -63,28 +65,52 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvPost;
         private TextView tvPostEmotion;
         private TextView tvPostTimeStamp;
-        private Button btnExclaim;
-        private Button btnHeart;
-        private Button btnComment;
+        private ImageButton btnExclaim;
+        private ImageButton btnHeart;
+        private ImageButton btnComment;
+        private TextView tvNumExclaims;
+        private TextView tvNumLikes;
+        private TextView tvNumComments;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvPost = itemView.findViewById(R.id.tvPost);
             tvPostTimeStamp = itemView.findViewById(R.id.tvPostTimeStamp);
             tvPostEmotion = itemView.findViewById(R.id.tvPostEmotion);
-            btnExclaim = itemView.findViewById((R.id.btnExclaim));
-            btnHeart = itemView.findViewById((R.id.btnHeart));
-            btnComment = itemView.findViewById((R.id.btnComment));
+            btnExclaim = itemView.findViewById(R.id.btnExclaim);
+            btnHeart = itemView.findViewById(R.id.btnHeart);
+            btnComment = itemView.findViewById(R.id.btnComment);
+            tvNumExclaims = itemView.findViewById(R.id.tvNumExclaims);
+            tvNumLikes = itemView.findViewById(R.id.tvNumLikes);
+            tvNumComments = itemView.findViewById(R.id.tvNumComments);
             btnExclaim.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "I feel this", Toast.LENGTH_SHORT).show();
+                    int pos = getAdapterPosition();
+                    int numExclaims;
+                    if(pos != RecyclerView.NO_POSITION) {
+                        Entry exclaimedPost = posts.get(pos);
+                        numExclaims = exclaimedPost.getExclaims();
+                        numExclaims++;
+                        exclaimedPost.setExclaims(numExclaims);
+                        tvNumExclaims.setText(String.valueOf(numExclaims));
+                        exclaimedPost.saveInBackground();
+                    }
                 }
             });
             btnHeart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "I love this", Toast.LENGTH_SHORT).show();
+                    int pos = getAdapterPosition();
+                    int numLikes;
+                    if(pos != RecyclerView.NO_POSITION) {
+                        Entry heartedPost = posts.get(pos);
+                        numLikes = heartedPost.getLikes();
+                        numLikes++;
+                        heartedPost.setLikes(numLikes);
+                        tvNumLikes.setText(String.valueOf(numLikes));
+                        heartedPost.saveInBackground();
+                    }
                 }
             });
             btnComment.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +127,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             Date createdAt = post.getCreatedAt();
             String timeAgo = post.calculateTimeAgo(createdAt);
             tvPostTimeStamp.setText(timeAgo);
+            tvNumExclaims.setText(String.valueOf(post.getExclaims()));
+            tvNumLikes.setText(String.valueOf(post.getLikes()));
+            tvNumComments.setText("3");
+            post.saveInBackground();
             String mood = post.getEmotion();
             if(mood.equals("Happy")) {
                 tvPostEmotion.setText(":)");

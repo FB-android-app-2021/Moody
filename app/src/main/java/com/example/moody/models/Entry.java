@@ -17,6 +17,8 @@ public class Entry extends ParseObject {
     public static final String KEY_EMOTION = "emotion";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_OBJ_ID = "objectId";
+    public static final String KEY_LIKES = "likes";
+    public static final String KEY_EXCLAIMS = "exclaims";
 
 //        public enum Mood {
 //        HAPPY("happy", 0),
@@ -58,6 +60,19 @@ public class Entry extends ParseObject {
     public void setId(String objectId) {
         put(KEY_OBJ_ID, objectId);
     }
+    public int getLikes() {
+        return getInt(KEY_LIKES);
+    }
+    public void setLikes(int likes) {
+        put(KEY_LIKES, likes);
+    }
+    public int getExclaims() {
+        return getInt(KEY_EXCLAIMS);
+    }
+    public void setExclaims(int exclaims) {
+        put(KEY_EXCLAIMS, exclaims);
+    }
+
     public static String calculateTimeAgo(Date createdAt) {
 
         int SECOND_MILLIS = 1000;
