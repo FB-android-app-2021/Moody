@@ -48,7 +48,7 @@ public class TVShow {
     //ShowAdapter showAdapter;
     public static final String TAG = "ShowRecommender";
     public static final String POPULAR_KEY
-            = "tv/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=1";
+            = "tv/popular?api_key=eb094fc10e8fc702bfc06d84810d0728&language=en-US&page=";
     int max_pages = 100;
 
     public TVShow() {}

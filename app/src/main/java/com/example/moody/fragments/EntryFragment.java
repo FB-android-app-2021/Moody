@@ -38,12 +38,13 @@ public class EntryFragment extends Fragment {
     private EditText etEntry;
     private Button btnSave;
     private Button btnDelete;
-    private String emotion;
+    private String recEmotion;
+
 
     FragmentEntryBinding binding;
 
     public EntryFragment(String emotion) {
-        this.emotion = emotion;
+        this.recEmotion = emotion;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class EntryFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                saveEntry(journalEntry, currentUser, emotion);
+                saveEntry(journalEntry, currentUser, recEmotion);
                 goMainActivity();
             }
         });
@@ -93,7 +94,7 @@ public class EntryFragment extends Fragment {
     }
     public void goMainActivity() {
         Intent i = new Intent(getActivity(), MainActivity.class);
-        i.putExtra("emotion", emotion);
+        i.putExtra("emotion", recEmotion);
         i.putExtra("frgToLoad", "media");
         startActivity(i);
     }
@@ -116,6 +117,7 @@ public class EntryFragment extends Fragment {
             }
         });
     }
+
 
 
 }

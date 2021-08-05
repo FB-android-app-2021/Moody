@@ -48,11 +48,7 @@ public class FetchShows {
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;
 
-    public FetchShows(String emotion) {
-        this.emotion = emotion;
-        if(emotion == null) {
-            this.emotion = "Happy";
-        }
+    public FetchShows() {
     }
 
     //makes client calls to endpoint urls and returns list of all unfiltered tv show objects

@@ -1,6 +1,7 @@
 package com.example.moody.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ import static com.example.moody.models.Movie.ZEN;
 public class MediaFragment extends Fragment {
     public static final String TAG = "MediaFragment";
     public static View loadingBar;
-    public static String emotion;
+    public static String recEmotion;
 
     private TextView tvMovieCategory;
     public static CarouselRecyclerview rvMovies;
@@ -58,9 +59,9 @@ public class MediaFragment extends Fragment {
 
     public MediaFragment(String recMood) {
         if(recMood == null) {
-            this.emotion = RANDOM;
+            this.recEmotion = RANDOM;
         } else{
-        this.emotion = recMood;}
+        this.recEmotion = recMood;}
     }
 
 
@@ -83,7 +84,8 @@ public class MediaFragment extends Fragment {
 
         //movie recyclerview initialization
         movieRecs = new ArrayList<>();
-        moodMovies = new FetchMovies(emotion);
+        moodMovies = new FetchMovies();
+        Log.d("MediaFragment", recEmotion);
         movieAdapter = new MovieAdapter(getActivity(), movieRecs);
         rvMovies.setAdapter(movieAdapter);
         rvMovies.setInfinite(true);
@@ -93,28 +95,27 @@ public class MediaFragment extends Fragment {
             @Override
             public void success(Map<String, List<Movie>> movieMap) {
                 List<Movie> sortedMovies = new ArrayList<>();
-                if(emotion == HAPPY) {
+                if(recEmotion.equals(HAPPY)) {
                     sortedMovies.addAll(movieMap.get(HAPPY));
                 }
-                else if(emotion == SAD){
+                else if(recEmotion.equals(SAD)){
                     sortedMovies.addAll(movieMap.get(SAD));
                 }
-                else if(emotion == ANXIOUS){
+                else if(recEmotion.equals(ANXIOUS)){
                     sortedMovies.addAll(movieMap.get(ANXIOUS));
                 }
-                else if(emotion == ZEN){
+                else if(recEmotion.equals(ZEN)){
                     sortedMovies.addAll(movieMap.get(ZEN));
                 }
-                else if(emotion == ANGRY){
+                else if(recEmotion.equals(ANGRY)){
                     sortedMovies.addAll(movieMap.get(ANGRY));
                 }
-                else if(emotion == EXCITED){
+                else if(recEmotion.equals(EXCITED)){
                     sortedMovies.addAll(movieMap.get(EXCITED));
                 }
-                else if(emotion == RANDOM){
+                else if(recEmotion.equals(RANDOM)){
                     sortedMovies.addAll(movieMap.get(RANDOM));
                 }
-                //movieRecs.addAll(sortedMovies);
                 addUniqueMovies(movieRecs, sortedMovies);
                 movieAdapter.notifyDataSetChanged();
             }
@@ -139,7 +140,7 @@ public class MediaFragment extends Fragment {
 
         //tv show recyclerview initialization
         showRecs = new ArrayList<>();
-        moodShows = new FetchShows(emotion);
+        moodShows = new FetchShows();
         showAdapter = new ShowAdapter(getActivity(), showRecs);
         rvTVShows.setAdapter(showAdapter);
         rvTVShows.setInfinite(true);
@@ -149,11 +150,26 @@ public class MediaFragment extends Fragment {
             @Override
             public void success(Map<String, List<TVShow>> showMap) {
                 List<TVShow> sortedShows = new ArrayList<>();
-                if(emotion == HAPPY) {
+                if(recEmotion.equals(HAPPY)) {
                     sortedShows.addAll(showMap.get(HAPPY));
                 }
-                else {
+                else if(recEmotion.equals(SAD)) {
                     sortedShows.addAll(showMap.get(SAD));
+                }
+                else if(recEmotion.equals(ANXIOUS)){
+                    sortedShows.addAll(showMap.get(ANXIOUS));
+                }
+                else if(recEmotion.equals(ZEN)){
+                    sortedShows.addAll(showMap.get(ZEN));
+                }
+                else if(recEmotion.equals(ANGRY)){
+                    sortedShows.addAll(showMap.get(ANGRY));
+                }
+                else if(recEmotion.equals(EXCITED)){
+                    sortedShows.addAll(showMap.get(EXCITED));
+                }
+                else if(recEmotion.equals(RANDOM)){
+                    sortedShows.addAll(showMap.get(RANDOM));
                 }
                 addUniqueShows(showRecs, sortedShows);
                 showAdapter.notifyDataSetChanged();

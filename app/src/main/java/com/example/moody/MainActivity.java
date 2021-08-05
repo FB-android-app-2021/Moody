@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
         if(intentFrag != null) {
             switch (intentFrag) {
                 case "media":
-                    navBar.setSelectedItemId(R.id.action_recs);
+                    recMood = getIntent().getStringExtra("emotion");
+                    fragmentManager.beginTransaction().replace(R.id.fragment_main_placeholder, new MediaFragment(recMood)).commit();
                     break;
 
             }

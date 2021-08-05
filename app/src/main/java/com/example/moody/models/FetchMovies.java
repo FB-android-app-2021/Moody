@@ -25,7 +25,6 @@ import static com.example.moody.models.Movie.HAPPY;
 import static com.example.moody.models.Movie.POPULAR_KEY;
 import static com.example.moody.models.Movie.RANDOM;
 import static com.example.moody.models.Movie.SAD;
-import static com.example.moody.models.Movie.TOP_RATED_KEY;
 import static com.example.moody.models.Movie.ZEN;
 
 public class FetchMovies {
@@ -46,11 +45,7 @@ public class FetchMovies {
     AsyncHttpClient client = new AsyncHttpClient();
     String CALLED_URL;
 
-    public FetchMovies(String emotion) {
-        this.emotion = emotion;
-        if(emotion == null) {
-            this.emotion = "HAPPY_KEY";
-        }
+    public FetchMovies() {
     }
 
     //makes client calls to endpoint urls and returns list of all unfiltered movie objects
@@ -63,7 +58,7 @@ public class FetchMovies {
         excitedMovieList = new ArrayList<>();
         randomMovieList = new ArrayList<>();
         movieMoodMap = new HashMap<>();
-        for (int i = max_pages; i >= 0; i--) {
+        for (int i = 1; i <= max_pages; i++) {
             CALLED_URL = BASE_URL + POPULAR_KEY + String.valueOf(i);
             client.get(CALLED_URL, new JsonHttpResponseHandler() {
                 @Override
