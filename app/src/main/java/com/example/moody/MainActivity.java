@@ -10,11 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.moody.databinding.ActivityMainBinding;
 import com.example.moody.fragments.JournalFragment;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     private Toolbar toolbar;
-    private Button btnLogout;
+    private ImageButton btnLogout;
     private BottomNavigationView navBar;
     public static MediaFragment moodRecs;
 
@@ -45,21 +48,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-//        recMood = getIntent().getStringExtra("emotion");
-//        if(recMood == null) {
-//            recMood = RANDOM;
-//        }
+
 
         toolbar = binding.toolbar;
         btnLogout = binding.btnLogout;
         navBar = binding.navBar;
-        navBar.setBackgroundColor(530);
+        //navBar.setItemTextColor(ColorStateList.valueOf(R.color.purple_200));
+        //navBar.setBackgroundColor(R.color.white);
+        //getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
+        //navBar.setItemTextColor(ColorStateList.valueOf(R.color.purple_200));
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

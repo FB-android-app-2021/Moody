@@ -17,6 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.moody.models.Movie.ANGRY;
+import static com.example.moody.models.Movie.ANXIOUS;
+import static com.example.moody.models.Movie.EXCITED;
+import static com.example.moody.models.Movie.HAPPY;
+import static com.example.moody.models.Movie.SAD;
+import static com.example.moody.models.Movie.ZEN;
+
 public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHolder> {
     private Context context;
     private List<Entry> entries;
@@ -76,11 +83,23 @@ public class EntriesAdapter extends RecyclerView.Adapter<EntriesAdapter.ViewHold
             tvTimeStamp.setText(createdDate);
             String mood = entry.getEmotion();
             tvEmotion.setText(mood);
-            if(mood.equals("Happy")) {
-                tvEmotion.setText("Happy Thought:");
+            if(mood.equals(HAPPY)) {
+                tvEmotion.setText("Feeling: Happy");
             }
-            else if(mood.equals("Sad")) {
-                tvEmotion.setText("Sad Thought:");
+            else if(mood.equals(SAD)) {
+                tvEmotion.setText("Feeling: Sad");
+            }
+            else if(mood.equals(ANGRY)) {
+                tvEmotion.setText("Feeling: Angry");
+            }
+            else if(mood.equals(EXCITED)) {
+                tvEmotion.setText("Feeling: Excited");
+            }
+            else if(mood.equals(ZEN)) {
+                tvEmotion.setText("Feeling: Zen");
+            }
+            else if(mood.equals(ANXIOUS)) {
+                tvEmotion.setText("Feeling: Anxious");
             }
         }
     }

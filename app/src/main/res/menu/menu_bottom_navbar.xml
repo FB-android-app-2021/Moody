@@ -6,15 +6,21 @@
         android:id="@+id/action_recs"
         android:enabled="true"
         android:title="@string/recs"
+        android:icon="@drawable/purple_film"
+        android:iconTint="@color/purple_200"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_feed"
         android:enabled="true"
         android:title="Feed"
+        android:icon="@drawable/feed_icon"
+        android:iconTint="@color/purple_200"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_journal"
         android:enabled="true"
+        android:icon="@drawable/journal_icon"
+        android:iconTint="@color/purple_200"
         android:title="@string/journal"
         app:showAsAction="ifRoom" />
 
